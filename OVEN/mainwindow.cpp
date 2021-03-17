@@ -74,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
     QDateTime date;
     std::cout << date.currentSecsSinceEpoch() << std::endl;
     log_file.open("log_" + std::to_string(date.currentSecsSinceEpoch()) + ".txt", std::ios::out | std::ios::trunc);
+    log_file << "***START***" << std::endl;
     // Setting validators for editlines
     ui->lineedit_mode1setpoint->setValidator(new QIntValidator(0, 1000, this));
     ui->lineedit_slaveid->setValidator(new QIntValidator(0, 255, this));
@@ -174,19 +175,22 @@ MainWindow::~MainWindow(){
     if ((OVEN != NULL) && (ui->label_connectionstatus->text() == "connected")){
         // Turning off the relays
         OVEN->set_coil(rout1, 0);
-
+        log_file << "OVEN coil rout1 - 0" << std::endl;
         // Disconnecting
         OVEN->disconnect();
+        log_file << "OVEN disconnect" << std::endl;
     }
 
     // Stop and disable the timers
     if (plot1_timer->isActive()){
         plot1_timer->stop();
         plot1_timer->disconnect(plot1_timer, SIGNAL(timeout()), this, SLOT(update_plot1()));
+        log_file << "Timer 1 stopped" << std::endl;
     }
     if (plot2_timer->isActive()){
         plot2_timer->stop();
         plot2_timer->disconnect(plot2_timer, SIGNAL(timeout()), this, SLOT(update_plot2()));
+        log_file << "Timer 2 stopped" << std::endl;
     }
     if (timer_counter->isActive()){
         timer_counter->stop();
@@ -198,12 +202,13 @@ MainWindow::~MainWindow(){
     if (data_file_2.is_open() == true) data_file_2.close();
 
     heating_profile.clear();
-
+    log_file << "***END***" << std::endl;
     delete ui;
 }
 
 // Button "CONNECT" click
 void MainWindow::on_button_connect_clicked(){
+    log_file << "Button Connect BEGIN" << std::endl;
     // Serial name in "string"
     std::string serial_name = "";
     // Serial name in "wchar_t"
@@ -213,7 +218,7 @@ void MainWindow::on_button_connect_clicked(){
 
     // Check the text of the serial
     if (ui->lineedit_comport->text().toStdString().length() == 0){
-        std::cout << "Wrong Serial" << std::endl;
+        log_file << "Wrong Serial" << std::endl;
         return;
     }
     else{
@@ -223,22 +228,28 @@ void MainWindow::on_button_connect_clicked(){
         serial_name_w = new wchar_t[serial_name.length() + 1];
         // Conversion from "char *" to "wchar_t *"
         std::mbstowcs(serial_name_w, serial_name.c_str(), serial_name.length() + 1);
+        log_file << "Seraial OK. COM name: " << serial_name << std::endl;
     }
 
     // Check the text of ID
     if (ui->lineedit_slaveid->text().toStdString().length() == 0){
-        std::cout << "Wrong ID" << std::endl;
+        log_file << "Wrong ID" << std::endl;
         return;
     }
-    else slave_id = ui->lineedit_slaveid->text().toUInt();
+    else{
+        slave_id = ui->lineedit_slaveid->text().toUInt();
+        log_file << "Slave ID OK. ID: " << slave_id << std::endl;
+    }
 
     // Setting the baud rate
     uint32_t baud_rate = ui->combobox_baudrate->currentText().toUInt();
+    log_file << "Baud Rate: " << baud_rate << std::endl;
 
     // Allocating memory for connection
     OVEN = new modbus_connection(serial_name_w, baud_rate, 2, 0, 8, slave_id);
     // Check for connection
     if (OVEN->check_connection() == 1){
+        log_file << "MODBUS CONNECTED" << std::endl;
         // Setting availability of the objects
         ui->label_connectionstatus->setText("connected");
         ui->button_connect->setEnabled(false);
@@ -255,14 +266,18 @@ void MainWindow::on_button_connect_clicked(){
 
         // Banning autonomous control
         OVEN->set_coil(r_L1, 1);
+        log_file << "OVEN coil r_L1 - 1" << std::endl;
 
         // Turning off the relays
         OVEN->set_coil(rout1, 0);
+        log_file << "OVEN coil rout1 - 0" << std::endl;
 
         // Setting low set points
         OVEN->set_coil(SP1, 0);
+        log_file << "OVEN coil SP1 - 0" << std::endl;
     }
     else if (OVEN->check_connection() == 0){
+        log_file << "MODBUS DISCONNECTED" << std::endl;
         // Setting the availability of the objects
         ui->label_connectionstatus->setText("disconnected");
         ui->button_connect->setEnabled(true);
@@ -273,10 +288,12 @@ void MainWindow::on_button_connect_clicked(){
         OVEN->~modbus_connection();
         OVEN = NULL;
     }
+    log_file << "Button Connect END" << std::endl;
 }
 
 // Button "DISCONNECT" click
 void MainWindow::on_button_disconnect_clicked(){
+    log_file << "Button Disconnect BEGIN" << std::endl;
     // Check if the connection was established before
     if (    (ui->button_connect->isEnabled() == false) &&
             (ui->button_disconnect->isEnabled() == true) &&
@@ -284,6 +301,7 @@ void MainWindow::on_button_disconnect_clicked(){
 
         // Turning off the relays
         OVEN->set_coil(rout1, 0);
+        log_file << "OVEN coil rout1 - 0" << std::endl;
 
         // Disable all of the modes
         // For mode 1
@@ -337,7 +355,7 @@ void MainWindow::on_button_disconnect_clicked(){
         // Set active lineedit
         ui->lineedit_slaveid->setFocus();
     }
-    else return;
+    log_file << "Button Disconnect END" << std::endl;
 }
 
 // Mode 1 radiobutton clicked
@@ -373,12 +391,18 @@ void MainWindow::on_radiobutton_mode1_clicked(){
 
     // Reading current set point values
     float value;
-    if (OVEN->get_coil(SP1, value) == 0) ui->lineedit_mode1setpoint->setText(QString::fromStdString(std::to_string(value)));
-    else ui->lineedit_mode1setpoint->setText("Error");
-    if (OVEN->get_coil(PV1, value) == 0) ui->lcdnumber_currentval1->display(value);
-    else ui->lcdnumber_currentval1->display(0);
-//    if (OVEN->get_coil(PV2, value) == 0) ui->lcdnumber_currentval2->display(value);
-//    else ui->lcdnumber_currentval2->display(0);
+    if (OVEN->get_coil(SP1, value) == 0){
+        ui->lineedit_mode1setpoint->setText(QString::fromStdString(std::to_string(value)));
+    }
+    else{
+        ui->lineedit_mode1setpoint->setText("Error");
+    }
+    if (OVEN->get_coil(PV1, value) == 0){
+        ui->lcdnumber_currentval1->display(value);
+    }
+    else{
+        ui->lcdnumber_currentval1->display(0);
+    }
 
     // Set active lineedit
     ui->lineedit_mode1setpoint->setFocus();
@@ -425,10 +449,12 @@ void MainWindow::on_radiobutton_mode2_clicked(){
 
     // Reading current values for mode 2
     float value;
-    if (OVEN->get_coil(PV1, value) == 0) ui->lcdnumber_mode2currentval1->display(value);
-    else ui->lcdnumber_mode2currentval1->display(0);
-//    if (OVEN->get_coil(PV2, value) == 0) ui->lcdnumber_mode2currentval2->display(value);
-//    else ui->lcdnumber_mode2currentval2->display(0);
+    if (OVEN->get_coil(PV1, value) == 0){
+        ui->lcdnumber_mode2currentval1->display(value);
+    }
+    else{
+        ui->lcdnumber_mode2currentval1->display(0);
+    }
 
     // Set active lineedit
     ui->lineedit_mode2startingtemperature->setFocus();
@@ -446,52 +472,55 @@ uint8_t heater_on = 0;
 uint8_t get_data_count = 0;
 
 void MainWindow::update_plot1(){
+    log_file << "Update Plot 1 BEGIN" << std::endl;
     // PWM Time counter
-    std::cout << "Time increment: " << time_counter << std::endl;
+    log_file << "PWM Time Counter: " << time_counter << std::endl;
     if (time_counter == 4800) time_counter = 0;
     else time_counter += 200;
     if ((time_counter < close_time) && (heater_on == 0)){
         OVEN->set_coil(rout1, 1000);
-        std::cout << "HEATER ON" << std::endl;
+        log_file << "OVEN coil rout1 - 1000" << std::endl;
         heater_on = 1;
         ui->label_relay1status->setText("1");
     }
     else if ((time_counter >= close_time) && (heater_on == 1)){
         OVEN->set_coil(rout1, 0);
-        std::cout << "HEATER_OFF" << std::endl;
+        log_file << "OVEN coil rout1 - 0" << std::endl;
         heater_on = 0;
         ui->label_relay1status->setText("0");
     }
 
     // Counter for 1 second data getting
     if (get_data_count == 4){
+        log_file << "Data Getting and Controlling" << std::endl;
         get_data_count = 0;
         // Plotting
         float temperature1;
         if (series_plot1->count() >= 50) x_axis_plot1->setRange(0, x_axis_plot1->max() + 1);
         if (OVEN->get_coil(PV1, temperature1) == 0){
+            log_file << "OVEN coil PV1: " << temperature1 << std::endl;
             series_plot1->append(current_time_1, temperature1);
             ui->lcdnumber_currentval1->display(temperature1);
             current_time_1++;
+            log_file << "Current Time: " << current_time_1 << std::endl;
         }
 
         // Getting actual error value
         error[0] = error[1];
         error[1] = ui->lineedit_mode1setpoint->text().toDouble() - temperature1;
-        std::cout << "CUR: " << error[1] << "   PREV: " << error[0] << std::endl;
+        log_file << "Errors: " << error[0] << " -> " << error[1] << std::endl;
 
         // Growth control PD
-        std::cout << "Regulation type: " << (uint16_t)regulation_type << std::endl;
+        log_file << "Regulation type: " << (uint16_t)regulation_type << std::endl;
         if (regulation_type == PD){
             if (std::abs(ui->lineedit_mode1setpoint->text().toDouble() - temperature1) > 3){
                 p_part = error[1] * P_REG1 * PWM_PERIOD;
                 d_part = (error[1] - error[0]) * D_REG1 * PWM_PERIOD;
                 (p_part + d_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + d_part < 0) ? (close_time = 0) : (close_time = p_part + d_part));
                 if ((close_time < 500) && (close_time != 0)) close_time = 500;
-                std::cout << p_part << "   " << d_part << "   Close time: " << close_time << std::endl;
+                log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;
             }
             else{
-                std::cout << ">>>> Go to PI <<<<" << std::endl;
                 regulation_type = PI;
                 i_part = 0;
             }
@@ -502,7 +531,7 @@ void MainWindow::update_plot1(){
             i_part += error[1] * I_REG2 * PWM_PERIOD;
             if (i_part < 0) i_part = 0;
             (p_part + i_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + i_part < 0) ? (close_time = 0) : (close_time = p_part + i_part));
-            std::cout << p_part << "   " << i_part << "   Close time: " << close_time << std::endl;
+            log_file << "P: " << p_part << " I: " << i_part << "   Close time: " << close_time << std::endl;
         }
 
         // File writing
@@ -513,34 +542,40 @@ void MainWindow::update_plot1(){
     else{
         get_data_count++;
     }
+    log_file << "Update Plot 1 END" << std::endl;
 }
 
 // Function for plotting in the timer
 void MainWindow::update_plot2(){
+    log_file << "Update Plot 2 BEGIN" << std::endl;
     // PWM Time counter
-    std::cout << "Time increment: " << time_counter << std::endl;
+    log_file << "PWM Time counter: " << time_counter << std::endl;
     if (time_counter == 4800) time_counter = 0;
     else time_counter += 200;
     if ((time_counter < close_time) && (heater_on == 0)){
         OVEN->set_coil(rout1, 1000);
-        std::cout << "HEATER ON" << std::endl;
+        log_file<< "OVEN coil rout1 - 1000" << std::endl;
         heater_on = 1;
         ui->label_mode2relay1status->setText("1");
     }
     else if ((time_counter >= close_time) && (heater_on == 1)){
         OVEN->set_coil(rout1, 0);
-        std::cout << "HEATER_OFF" << std::endl;
+        log_file << "OVEN coil rout1 - 0" << std::endl;
         heater_on = 0;
         ui->label_mode2relay1status->setText("0");
     }
 
     // 1 second passed
     if (get_data_count == 4){
+        log_file << "Data Reading and Controlling" << std::endl;
         get_data_count = 0;
 
         // Getting current temperature values
         float value_1;
-        if (OVEN->get_coil(PV1, value_1) == 0) ui->lcdnumber_mode2currentval1->display(value_1);
+        if (OVEN->get_coil(PV1, value_1) == 0){
+            log_file << "OVEN coil PV1: " << value_1 << std::endl;
+            ui->lcdnumber_mode2currentval1->display(value_1);
+        }
 
         // Plotting
         series_plot2->append(current_time_2, value_1);
@@ -551,7 +586,7 @@ void MainWindow::update_plot2(){
 
         // If the trend starts not from the current temperature, then we need to prepare the heater
         if (preparation_needed){
-            std::cout << "Preparation" << std::endl;
+            log_file << "Preparation Process" << std::endl;
             // If we got to the starting temperature
             if (std::abs((*(heating_profile.begin()))[1] - value_1) < 0.5){
                 preparation_needed = 0;
@@ -578,12 +613,15 @@ void MainWindow::update_plot2(){
             else{
                 error[0] = error[1];
                 error[1] = (double)(*(heating_profile.begin()))[1] - value_1;
-                //std::cout << error[0] << "  " << error[1] << std::endl;
+
+                log_file << "Errors: " << error[0] << " -> " << error[1] << std::endl;
+
                 p_part = error[1] * P_REG1 * PWM_PERIOD;
                 d_part = (error[1] - error[0]) * D_REG1 * PWM_PERIOD;
                 (p_part + d_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + d_part < 0) ? (close_time = 0) : (close_time = p_part + d_part));
                 if ((close_time < 300) && (close_time != 0)) close_time = 300;
-                std::cout << close_time << std::endl;
+
+                log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;
             }
 
             // File writing
@@ -591,12 +629,13 @@ void MainWindow::update_plot2(){
         }
         // If current temperature is the start of the trend
         else if (!preparation_needed){
-            std::cout << "Profile" << std::endl;
+            log_file << "Profile Process" << std::endl;
             // If the profile has not ended
             if (heating_profile_copy.size() > 1){
                 // Getting the next element
                 auto next = heating_profile_copy.begin();
                 next++;
+                log_file << "Trending time: " << trending_time << std::endl;
                 // While heating through the line
                 if (trending_time < (*next)[0]){
                     // Getting the set value
@@ -604,37 +643,38 @@ void MainWindow::update_plot2(){
                     double dtemp = (*next)[1] - (*(heating_profile_copy.begin()))[1];
                     double speed = (double)dtemp / (double)dtime;
                     double trending_value = (double)(*(heating_profile_copy.begin()))[1] + speed * (trending_time - (*(heating_profile_copy.begin()))[0]);
-
+                    log_file << "Trending value: " << trending_value << std::endl;
                     // Refreshing the error
                     error[0] = error[1];
                     error[1] = trending_value - value_1;
+                    log_file << "Errors: " << error[0] << " -> " << error[1] << std::endl;
 
+                    log_file << "Regulation type: " << (uint16_t)regulation_type << std::endl;
                     // PI or PD control
                     if (regulation_type == PI){
                         if (std::abs(error[1]) > 3){
-                            std::cout << "PI_PD" << std::endl;
+                            log_file << "PI_PD" << std::endl;
                             p_part = error[1] * P_REG1 * PWM_PERIOD;
                             d_part = (error[1] - error[0]) * D_REG1 * PWM_PERIOD;
                             (p_part + d_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + d_part < 0) ? (close_time = 0) : (close_time = p_part + d_part));
                             if ((close_time < 300) && (close_time != 0)) close_time = 300;
-                            std::cout << close_time << std::endl;
+                            log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;
                         }
                         else{
-                            std::cout << "PI_PI" << std::endl;
+                            log_file << "PI_PI" << std::endl;
                             p_part = error[1] * P_REG2 * PWM_PERIOD;
                             i_part += error[1] * I_REG2 * PWM_PERIOD;
                             if (i_part < 0) i_part = 0;
                             (p_part + i_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + i_part < 0) ? (close_time = 0) : (close_time = p_part + i_part));
-                            std::cout << close_time << std::endl;
+                            log_file << "P: " << p_part << " I: " << i_part << "   Close time: " << close_time << std::endl;
                         }
                     }
                     else if (regulation_type == PD){
-                        std::cout << "PD" << std::endl;
+                        log_file << "PD" << std::endl;
                         p_part = error[1] * P_REG1 * PWM_PERIOD;
                         d_part = (error[1] - error[0]) * D_REG1 * PWM_PERIOD;
                         (p_part + d_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + d_part < 0) ? (close_time = 0) : (close_time = p_part + d_part));
-                        //if ((close_time < 500) && (close_time != 0)) close_time = 500;
-                        std::cout << close_time << std::endl;
+                        log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;
                     }
                 }
                 // When at the end
@@ -658,13 +698,15 @@ void MainWindow::update_plot2(){
                 trending_time++;
             }
             else if (heating_profile_copy.size() == 1){
+                log_file << "Profile ENDED" << std::endl;
                 error[0] = error[1];
                 error[1] = (*(heating_profile_copy.begin()))[1] - value_1;
+                log_file << "Errors: " << error[0] << " -> " << error[1] << std::endl;
                 close_time = ((*(heating_profile_copy.begin()))[1] - value_1) * P_REG1 * 5000;
                 p_part = error[1] * P_REG2 * PWM_PERIOD;
                 i_part += error[1] * I_REG2 * PWM_PERIOD;
                 (p_part + i_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + i_part < 0) ? (close_time = 0) : (close_time = p_part + i_part));
-                std::cout << "ENDED" << std::endl;
+                log_file << "P: " << p_part << " I: " << i_part << "   Close time: " << close_time << std::endl;
             }
             // File writing
             if (data_file_2.is_open()) data_file_2 << (*(heating_profile_copy.begin()))[1] << std::endl;
@@ -672,14 +714,17 @@ void MainWindow::update_plot2(){
 
         // Time incrementing
         current_time_2++;
+        log_file << "Current Time: " << current_time_2 << std::endl;
     }
     else{
         get_data_count++;
     }
+    log_file << "Update Plot 2 END" << std::endl;
 }
 
 // Clears the plot
 void MainWindow::refresh_plot1(void){
+    log_file << "Refresh Plot 1 BEGIN" << std::endl;
     if (plot1_timer->isActive()){
         plot1_timer->stop();
         plot1_timer->disconnect(plot1_timer, SIGNAL(timeout()), this, SLOT(update_plot1()));
@@ -690,6 +735,8 @@ void MainWindow::refresh_plot1(void){
     y_axis_plot1->setRange(0, 1000);
     time_counter = 0;
     current_time_1 = 0;
+
+    log_file << "Refresh Plot 1 END" << std::endl;
 }
 // Clears the plot
 void MainWindow::refresh_plot2(void){
@@ -717,7 +764,6 @@ void MainWindow::refresh_trend(void){
 
 // Set the point for heating
 void MainWindow::on_pushbutton_mode1setpoint_clicked(){
-
     // Reading the value from the input 1
     float value_1;
     if (OVEN->get_coil(PV1, value_1) == 0) ui->lcdnumber_currentval1->display((int16_t)value_1);
@@ -746,7 +792,7 @@ void MainWindow::on_pushbutton_mode1setpoint_clicked(){
         data_file_1.open(csv_filename, std::ios::out | std::ios::trunc);
         data_file_1 << "Setpoint (C):" << sym << ui->lineedit_mode1setpoint->text().toStdString();
         data_file_1 << std::endl << std::endl;
-        data_file_1 << "Time (sec)" << sym << "Temperature 1 (C)" << sym << "Temperature 2 (C)" << sym << "Relay 1" << sym << "Relay 2" << std::endl;
+        data_file_1 << "Time (sec)" << sym << "Temperature 1 (C)" << sym << "Relay 1" << std::endl;
     }
 
     // Start plotting
