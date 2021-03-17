@@ -1,0 +1,46 @@
+***STARTED***
+theme set: WHITE
+on_pushbutton_connect_clicked BEGIN
+Serial OK. Serial name: com3
+Slave ID OK. ID: 
+Baud rate: 9600
+OVEN: connection unavailable
+on_pushbutton_connect_clicked END
+on_pushbutton_connect_clicked BEGIN
+Serial OK. Serial name: com3
+Slave ID OK. ID: 
+Baud rate: 9600
+OVEN: connection unavailable
+on_pushbutton_connect_clicked END
+on_pushbutton_connect_clicked BEGIN
+Serial OK. Serial name: com3
+Slave ID OK. ID: 
+Baud rate: 9600
+OVEN: connection unavailable
+on_pushbutton_connect_clicked END
+on_pushbutton_connect_clicked BEGIN
+Serial OK. Serial name: com3
+Slave ID OK. ID: 
+Baud rate: 9600
+OVEN: connection unavailable
+on_pushbutton_connect_clicked END
+on_pushbutton_connect_clicked BEGIN
+Serial OK. Serial name: com3
+Slave ID OK. ID: 
+Baud rate: 9600
+OVEN: connection unavailable
+on_pushbutton_connect_clicked END
+on_pushbutton_connect_clicked BEGIN
+Serial OK. Serial name: com3
+Slave ID OK. ID: 
+Baud rate: 9600
+OVEN: connection unavailable
+on_pushbutton_connect_clicked END
+on_pushbutton_themechange_clicked BEGIN
+Theme changed : BLACK
+on_pushbutton_themechange_clicked END
+on_pushbutton_themechange_clicked BEGIN
+Theme changed : WHITE
+on_pushbutton_themechange_clicked END
+data_file_1 closed
+***CLOSED NORMALLY***
