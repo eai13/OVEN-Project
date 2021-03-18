@@ -70,7 +70,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     QDateTime date;
     std::cout << date.currentSecsSinceEpoch() << std::endl;
     log_file.open("log_" + std::to_string(date.currentSecsSinceEpoch()) + ".txt", std::ios::out | std::ios::trunc);
@@ -517,7 +516,7 @@ void MainWindow::update_plot1(){
                 p_part = error[1] * P_REG1 * PWM_PERIOD;
                 d_part = (error[1] - error[0]) * D_REG1 * PWM_PERIOD;
                 (p_part + d_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + d_part < 0) ? (close_time = 0) : (close_time = p_part + d_part));
-                if ((close_time < 500) && (close_time != 0)) close_time = 500;
+                if ((close_time < 300) && (close_time != 0)) close_time = 300;
                 log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;
             }
             else{
