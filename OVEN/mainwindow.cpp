@@ -642,6 +642,8 @@ void MainWindow::update_plot2(){
                     double dtemp = (*next)[1] - (*(heating_profile_copy.begin()))[1];
                     double speed = (double)dtemp / (double)dtime;
                     double trending_value = (double)(*(heating_profile_copy.begin()))[1] + speed * (trending_time - (*(heating_profile_copy.begin()))[0]);
+                    // File writing
+                    if (data_file_2.is_open()) data_file_2 << trending_value << std::endl;
                     log_file << "Trending value: " << trending_value << std::endl;
                     // Refreshing the error
                     error[0] = error[1];
@@ -673,7 +675,7 @@ void MainWindow::update_plot2(){
                         p_part = error[1] * P_REG1 * PWM_PERIOD;
                         d_part = (error[1] - error[0]) * D_REG1 * PWM_PERIOD;
                         (p_part + d_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + d_part < 0) ? (close_time = 0) : (close_time = p_part + d_part));
-                        log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;
+                        log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;   
                     }
                 }
                 // When at the end
@@ -693,6 +695,8 @@ void MainWindow::update_plot2(){
                             i_part = 0;
                         }
                     }
+                    // File writing
+                    if (data_file_2.is_open()) data_file_2 << (*(heating_profile_copy.begin()))[1] << std::endl;
                 }
                 trending_time++;
             }
@@ -706,9 +710,9 @@ void MainWindow::update_plot2(){
                 i_part += error[1] * I_REG2 * PWM_PERIOD;
                 (p_part + i_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + i_part < 0) ? (close_time = 0) : (close_time = p_part + i_part));
                 log_file << "P: " << p_part << " I: " << i_part << "   Close time: " << close_time << std::endl;
+                // File writing
+                if (data_file_2.is_open()) data_file_2 << (*(heating_profile_copy.begin()))[1] << std::endl;
             }
-            // File writing
-            if (data_file_2.is_open()) data_file_2 << (*(heating_profile_copy.begin()))[1] << std::endl;
         }
 
         // Time incrementing

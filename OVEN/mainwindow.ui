@@ -87,6 +87,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="text">
+      <string>com4</string>
+     </property>
     </widget>
     <widget class="QLabel" name="label_comport">
      <property name="geometry">
@@ -123,6 +126,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="currentIndex">
+      <number>2</number>
      </property>
      <item>
       <property name="text">
@@ -207,7 +213,7 @@
       </font>
      </property>
      <property name="text">
-      <string/>
+      <string>1</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_slaveid">
@@ -1618,7 +1624,7 @@
      <x>0</x>
      <y>0</y>
      <width>1252</width>
-     <height>26</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

@@ -522,13 +522,16 @@ public:
         groupbox_mode2->raise();
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1252, 26));
+        menubar->setGeometry(QRect(0, 0, 1252, 20));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
 
         retranslateUi(MainWindow);
+
+        combobox_baudrate->setCurrentIndex(2);
+
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -538,6 +541,7 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "OVEN", nullptr));
         groupbox_connection->setTitle(QApplication::translate("MainWindow", "Connected to:", nullptr));
         button_connect->setText(QApplication::translate("MainWindow", "Connect", nullptr));
+        lineedit_comport->setText(QApplication::translate("MainWindow", "com4", nullptr));
         label_comport->setText(QApplication::translate("MainWindow", "Serial Port:", nullptr));
         combobox_baudrate->setItemText(0, QApplication::translate("MainWindow", "2400", nullptr));
         combobox_baudrate->setItemText(1, QApplication::translate("MainWindow", "4800", nullptr));
@@ -550,7 +554,7 @@ public:
         combobox_baudrate->setItemText(8, QApplication::translate("MainWindow", "115200", nullptr));
 
         label_baudrate->setText(QApplication::translate("MainWindow", "Baud Rate:", nullptr));
-        lineedit_slaveid->setText(QString());
+        lineedit_slaveid->setText(QApplication::translate("MainWindow", "1", nullptr));
         label_slaveid->setText(QApplication::translate("MainWindow", "Slave ID:", nullptr));
         button_disconnect->setText(QApplication::translate("MainWindow", "Disconnect", nullptr));
 #ifndef QT_NO_SHORTCUT
