@@ -5,13 +5,14 @@
 
 #define PWM_PERIOD 5000
 
-#define NEW_VAR 1000
+#define MIN_OPEN_TIME 700
 
 #define GAIN    10
 
 // Good but needs tests with new PI
 #define P_REG1  0.01 //0.0251673
 #define D_REG1  0
+#define I_REG1  0.00001
 
 #define P_REG2  0.05
 #define I_REG2  0.0005 // 0.00001 increased 50 times
@@ -474,20 +475,20 @@ void MainWindow::update_plot1(){
     log_file << "Update Plot 1 BEGIN" << std::endl;
     // PWM Time counter
     log_file << "PWM Time Counter: " << time_counter << std::endl;
-    if (time_counter == 4800) time_counter = 0;
-    else time_counter += 200;
     if ((time_counter < close_time) && (heater_on == 0)){
-        OVEN->set_coil(rout1, 1000);
-        log_file << "OVEN coil rout1 - 1000" << std::endl;
+        log_file << "SET COIL STATUS: " << OVEN->set_coil(rout1, 1000);
+        log_file << ";  OVEN coil rout1 - 1000" << std::endl;
         heater_on = 1;
         ui->label_relay1status->setText("1");
     }
     else if ((time_counter >= close_time) && (heater_on == 1)){
-        OVEN->set_coil(rout1, 0);
-        log_file << "OVEN coil rout1 - 0" << std::endl;
+        log_file << "SET COIL STATUS: " << OVEN->set_coil(rout1, 0);
+        log_file << ";  OVEN coil rout1 - 0" << std::endl;
         heater_on = 0;
         ui->label_relay1status->setText("0");
     }
+    if (time_counter == 4800) time_counter = 0;
+    else time_counter += 200;
 
     // Counter for 1 second data getting
     if (get_data_count == 4){
@@ -516,7 +517,7 @@ void MainWindow::update_plot1(){
                 p_part = error[1] * P_REG1 * PWM_PERIOD;
                 d_part = (error[1] - error[0]) * D_REG1 * PWM_PERIOD;
                 (p_part + d_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + d_part < 0) ? (close_time = 0) : (close_time = p_part + d_part));
-                if ((close_time < 300) && (close_time != 0)) close_time = 300;
+                if ((close_time < MIN_OPEN_TIME) && (close_time != 0)) close_time = MIN_OPEN_TIME;
                 log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;
             }
             else{
@@ -549,20 +550,20 @@ void MainWindow::update_plot2(){
     log_file << "Update Plot 2 BEGIN" << std::endl;
     // PWM Time counter
     log_file << "PWM Time counter: " << time_counter << std::endl;
-    if (time_counter == 4800) time_counter = 0;
-    else time_counter += 200;
     if ((time_counter < close_time) && (heater_on == 0)){
-        OVEN->set_coil(rout1, 1000);
-        log_file<< "OVEN coil rout1 - 1000" << std::endl;
+        log_file << "SET COIL STATUS: " << OVEN->set_coil(rout1, 1000);
+        log_file << ";  OVEN coil rout1 - 1000" << std::endl;
         heater_on = 1;
         ui->label_mode2relay1status->setText("1");
     }
     else if ((time_counter >= close_time) && (heater_on == 1)){
-        OVEN->set_coil(rout1, 0);
-        log_file << "OVEN coil rout1 - 0" << std::endl;
+        log_file << "SET COIL STATUS: " << OVEN->set_coil(rout1, 0);
+        log_file << ";  OVEN coil rout1 - 0" << std::endl;
         heater_on = 0;
         ui->label_mode2relay1status->setText("0");
     }
+    if (time_counter == 4800) time_counter = 0;
+    else time_counter += 200;
 
     // 1 second passed
     if (get_data_count == 4){
@@ -587,7 +588,7 @@ void MainWindow::update_plot2(){
         if (preparation_needed){
             log_file << "Preparation Process" << std::endl;
             // If we got to the starting temperature
-            if (std::abs((*(heating_profile.begin()))[1] - value_1) < 0.5){
+            if (std::abs((*(heating_profile.begin()))[1] - value_1) < 3){
                 preparation_needed = 0;
                 heating_profile_copy = heating_profile;
                 if (heating_profile_copy.size() > 1){
@@ -618,7 +619,7 @@ void MainWindow::update_plot2(){
                 p_part = error[1] * P_REG1 * PWM_PERIOD;
                 d_part = (error[1] - error[0]) * D_REG1 * PWM_PERIOD;
                 (p_part + d_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + d_part < 0) ? (close_time = 0) : (close_time = p_part + d_part));
-                if ((close_time < 300) && (close_time != 0)) close_time = 300;
+                if ((close_time < MIN_OPEN_TIME) && (close_time != 0)) close_time = MIN_OPEN_TIME;
 
                 log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;
             }
@@ -656,13 +657,14 @@ void MainWindow::update_plot2(){
                         if (std::abs(error[1]) > 3){
                             log_file << "PI_PD" << std::endl;
                             p_part = error[1] * P_REG1 * PWM_PERIOD;
-                            d_part = (error[1] - error[0]) * D_REG1 * PWM_PERIOD;
+                            d_part = 0;//error[1] * I_REG1 * PWM_PERIOD;
                             (p_part + d_part > PWM_PERIOD) ? (close_time = PWM_PERIOD) : ((p_part + d_part < 0) ? (close_time = 0) : (close_time = p_part + d_part));
-                            if ((close_time < 300) && (close_time != 0)) close_time = 300;
-                            log_file << "P: " << p_part << " D: " << d_part << "   Close time: " << close_time << std::endl;
+                            if ((close_time < MIN_OPEN_TIME) && (close_time != 0)) close_time = MIN_OPEN_TIME;
+                            log_file << "P: " << p_part << " I: " << d_part << "   Close time: " << close_time << std::endl;
                         }
                         else{
                             log_file << "PI_PI" << std::endl;
+                            d_part = 0;
                             p_part = error[1] * P_REG2 * PWM_PERIOD;
                             i_part += error[1] * I_REG2 * PWM_PERIOD;
                             if (i_part < 0) i_part = 0;
@@ -693,6 +695,7 @@ void MainWindow::update_plot2(){
                         else{
                             regulation_type = PI;
                             i_part = 0;
+                            d_part = 0;
                         }
                     }
                     // File writing
@@ -854,6 +857,7 @@ void MainWindow::on_pushbutton_mode2setcontrolpoints_clicked(){
     trending_time = 0;
     time_counter = 0;
     heating_profile_copy = heating_profile;
+    d_part = 0;
 
     // Start plotting
     connect(plot2_timer, SIGNAL(timeout()), this, SLOT(update_plot2()));
