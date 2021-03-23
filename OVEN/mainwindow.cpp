@@ -83,8 +83,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineedit_mode2startingtemperature->setValidator(new QIntValidator(0, 1000, this));
 
     // Set visibility
-    ui->groupbox_mode1->setVisible(true);
-    ui->groupbox_mode2->setVisible(false);
+    ui->groupbox_mode1->setVisible(false);
+    ui->groupbox_mode2->setVisible(true);
 
     // Setting current theme
     this->setStyleSheet("QMainWindow, QGroupBox, QLabel, QRadioButton, QCheckBox { background-color: white; color: black }");
