@@ -23,6 +23,8 @@
 #include "ui_mainwindow.h"
 #include "mblib.h"
 #include <QDate>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 
 char sym = ';';
 
@@ -71,10 +73,17 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    // Checking for available COMs
+    QList<QSerialPortInfo> ser_info = QSerialPortInfo::availablePorts();
+    if (ser_info.size() != 0) ui->lineedit_comport->setText(ser_info.begin()->portName());
+
+    // Setting up the log-file
     QDateTime date;
     std::cout << date.currentSecsSinceEpoch() << std::endl;
     log_file.open("log_" + std::to_string(date.currentSecsSinceEpoch()) + ".txt", std::ios::out | std::ios::trunc);
     log_file << "***START***" << std::endl;
+
     // Setting validators for editlines
     ui->lineedit_mode1setpoint->setValidator(new QIntValidator(0, 1000, this));
     ui->lineedit_slaveid->setValidator(new QIntValidator(0, 255, this));
@@ -83,8 +92,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineedit_mode2startingtemperature->setValidator(new QIntValidator(0, 1000, this));
 
     // Set visibility
-    ui->groupbox_mode1->setVisible(false);
-    ui->groupbox_mode2->setVisible(true);
+    ui->groupbox_mode1->setVisible(true);
+    ui->groupbox_mode2->setVisible(false);
 
     // Setting current theme
     this->setStyleSheet("QMainWindow, QGroupBox, QLabel, QRadioButton, QCheckBox { background-color: white; color: black }");
@@ -98,12 +107,12 @@ MainWindow::MainWindow(QWidget *parent)
     x_axis_plot1 = new QValueAxis;
     x_axis_plot1->setTickCount(11);
     x_axis_plot1->setRange(0, 50);
-    x_axis_plot1->setTitleText("Time, sec");
+    x_axis_plot1->setTitleText("Время, с");
     // Setting up the Y axis
     y_axis_plot1 = new QValueAxis;
     y_axis_plot1->setTickCount(11);
     y_axis_plot1->setRange(0, 1000);
-    y_axis_plot1->setTitleText("Temperature, C");
+    y_axis_plot1->setTitleText("Температура, С");
     // Setting up the whole chart
     chart_plot1->addAxis(x_axis_plot1, Qt::AlignBottom);
     chart_plot1->addAxis(y_axis_plot1, Qt::AlignLeft);
@@ -124,12 +133,12 @@ MainWindow::MainWindow(QWidget *parent)
     x_axis_plot2 = new QValueAxis;
     x_axis_plot2->setTickCount(11);
     x_axis_plot2->setRange(0, 50);
-    x_axis_plot2->setTitleText("Time, sec");
+    x_axis_plot2->setTitleText("Время, с");
     // Setting up the Y axis
     y_axis_plot2 = new QValueAxis;
     y_axis_plot2->setTickCount(11);
     y_axis_plot2->setRange(0, 1000);
-    y_axis_plot2->setTitleText("Temperature, C");
+    y_axis_plot2->setTitleText("Температура, С");
     // Setting up the whole chart
     chart_plot2->addAxis(x_axis_plot2, Qt::AlignBottom);
     chart_plot2->addAxis(y_axis_plot2, Qt::AlignLeft);
@@ -150,12 +159,12 @@ MainWindow::MainWindow(QWidget *parent)
     x_axis_trend = new QValueAxis;
     x_axis_trend->setTickCount(6);
     x_axis_trend->setRange(0, 50);
-    x_axis_trend->setTitleText("Time, sec");
+    x_axis_trend->setTitleText("Время, с");
     // Setting up the Y axis
     y_axis_trend = new QValueAxis;
     y_axis_trend->setTickCount(6);
     y_axis_trend->setRange(0, 1000);
-    y_axis_trend->setTitleText("Temperature, C");
+    y_axis_trend->setTitleText("Температура, С");
     // Setting up the whole chart
     chart_trend->addAxis(x_axis_trend, Qt::AlignBottom);
     chart_trend->addAxis(y_axis_trend, Qt::AlignLeft);
@@ -172,7 +181,7 @@ MainWindow::MainWindow(QWidget *parent)
 // Closing the program
 MainWindow::~MainWindow(){
     // Check for some dumbs who close without disconnection
-    if ((OVEN != NULL) && (ui->label_connectionstatus->text() == "connected")){
+    if ((OVEN != NULL) && (ui->label_connectionstatus->text() == "подключено")){
         // Turning off the relays
         OVEN->set_coil(rout1, 0);
         log_file << "OVEN coil rout1 - 0" << std::endl;
@@ -251,7 +260,7 @@ void MainWindow::on_button_connect_clicked(){
     if (OVEN->check_connection() == 1){
         log_file << "MODBUS CONNECTED" << std::endl;
         // Setting availability of the objects
-        ui->label_connectionstatus->setText("connected");
+        ui->label_connectionstatus->setText("подключено");
         ui->button_connect->setEnabled(false);
         ui->button_disconnect->setEnabled(true);
         if (ui->radiobutton_mode1->isChecked()){
@@ -279,7 +288,7 @@ void MainWindow::on_button_connect_clicked(){
     else if (OVEN->check_connection() == 0){
         log_file << "MODBUS DISCONNECTED" << std::endl;
         // Setting the availability of the objects
-        ui->label_connectionstatus->setText("disconnected");
+        ui->label_connectionstatus->setText("отключено");
         ui->button_connect->setEnabled(true);
         ui->button_disconnect->setEnabled(false);
         ui->groupbox_controlmode->setEnabled(false);
@@ -297,7 +306,7 @@ void MainWindow::on_button_disconnect_clicked(){
     // Check if the connection was established before
     if (    (ui->button_connect->isEnabled() == false) &&
             (ui->button_disconnect->isEnabled() == true) &&
-            (ui->label_connectionstatus->text() == "connected")){
+            (ui->label_connectionstatus->text() == "подключено")){
 
         // Turning off the relays
         OVEN->set_coil(rout1, 0);
@@ -343,7 +352,7 @@ void MainWindow::on_button_disconnect_clicked(){
         // Set the availability of the buttons
         ui->button_connect->setEnabled(true);
         ui->button_disconnect->setEnabled(false);
-        ui->label_connectionstatus->setText("disconnected");
+        ui->label_connectionstatus->setText("отключено");
 
         // Heating profile clearing
         heating_profile.clear();
@@ -395,7 +404,7 @@ void MainWindow::on_radiobutton_mode1_clicked(){
         ui->lineedit_mode1setpoint->setText(QString::fromStdString(std::to_string(value)));
     }
     else{
-        ui->lineedit_mode1setpoint->setText("Error");
+        ui->lineedit_mode1setpoint->setText("Ошибка");
     }
     if (OVEN->get_coil(PV1, value) == 0){
         ui->lcdnumber_currentval1->display(value);
@@ -1030,15 +1039,27 @@ void MainWindow::on_pushbutton_mode2setstartingtemperature_clicked(){
 }
 // Adding point to the array
 void MainWindow::on_pushbutton_mode2addpoint_clicked(){
-    if ((ui->lineedit_mode2addtemperature->text().length() > 0) && (ui->lineedit_mode2addtime->text().length() > 0) && (ui->lineedit_mode2addtime->text().toInt() > heating_profile.back()[0])){
-        heating_profile.push_back(std::array<int, 2>({ui->lineedit_mode2addtime->text().toInt(), ui->lineedit_mode2addtemperature->text().toInt()}));
-        series_trend->append(ui->lineedit_mode2addtime->text().toInt(), ui->lineedit_mode2addtemperature->text().toInt());
+    if ((ui->lineedit_mode2addtemperature->text().length() > 0) && (ui->lineedit_mode2addtime->text().length() > 0)){
+        if ((ui->lineedit_mode2addtime->text().toDouble() > 0) && (ui->lineedit_mode2addtemperature->text().toDouble() < heating_profile.back()[1])) return;
+        if ((ui->lineedit_mode2addtime->text().toDouble() < 0) && (ui->lineedit_mode2addtemperature->text().toDouble() > heating_profile.back()[1])) return;
+        int32_t time;
+        if (ui->lineedit_mode2addtime->text() == "0"){
+            time = ui->lineedit_mode2addtemperature->text().toInt() * 60 + heating_profile.back()[0];
+            heating_profile.push_back(std::array<int, 2>({time, heating_profile.back()[1]}));
+            series_trend->append(time, heating_profile.back()[1]);
+        }
+        else{
+            time = heating_profile.back()[0] + (ui->lineedit_mode2addtemperature->text().toDouble() - (double)heating_profile.back()[1]) * 60 / ui->lineedit_mode2addtime->text().toDouble();
+            heating_profile.push_back(std::array<int, 2>({time, ui->lineedit_mode2addtemperature->text().toInt()}));
+            series_trend->append(time, ui->lineedit_mode2addtemperature->text().toInt());
+        }
         ui->lineedit_mode2addtemperature->setText("");
         ui->lineedit_mode2addtime->setText("");
         if (heating_profile.back()[0] > x_axis_trend->max()) x_axis_trend->setMax(heating_profile.back()[0]);
 
         if (heating_profile.back()[1] > (y_axis_trend->max() - 50)) y_axis_trend->setMax(heating_profile.back()[1] + 50);
 
+        std::cout << heating_profile.back()[0] << " ; " << heating_profile.back()[1] << std::endl;
         // Set available lineedit
         ui->lineedit_mode2addtime->setFocus();
     }

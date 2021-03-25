@@ -168,7 +168,7 @@ public:
         combobox_baudrate->setFont(font1);
         label_baudrate = new QLabel(groupbox_connection);
         label_baudrate->setObjectName(QString::fromUtf8("label_baudrate"));
-        label_baudrate->setGeometry(QRect(10, 90, 81, 16));
+        label_baudrate->setGeometry(QRect(10, 90, 90, 16));
         label_baudrate->setFont(font2);
         lineedit_slaveid = new QLineEdit(groupbox_connection);
         lineedit_slaveid->setObjectName(QString::fromUtf8("lineedit_slaveid"));
@@ -176,7 +176,7 @@ public:
         lineedit_slaveid->setFont(font1);
         label_slaveid = new QLabel(groupbox_connection);
         label_slaveid->setObjectName(QString::fromUtf8("label_slaveid"));
-        label_slaveid->setGeometry(QRect(10, 150, 81, 16));
+        label_slaveid->setGeometry(QRect(10, 150, 110, 16));
         label_slaveid->setFont(font2);
         button_disconnect = new QPushButton(groupbox_connection);
         button_disconnect->setObjectName(QString::fromUtf8("button_disconnect"));
@@ -247,7 +247,7 @@ public:
         groupbox_setpoints->setGeometry(QRect(10, 21, 211, 431));
         label_mode1setpoint = new QLabel(groupbox_setpoints);
         label_mode1setpoint->setObjectName(QString::fromUtf8("label_mode1setpoint"));
-        label_mode1setpoint->setGeometry(QRect(40, 20, 131, 16));
+        label_mode1setpoint->setGeometry(QRect(30, 20, 150, 16));
         label_mode1setpoint->setFont(font2);
         lineedit_mode1setpoint = new QLineEdit(groupbox_setpoints);
         lineedit_mode1setpoint->setObjectName(QString::fromUtf8("lineedit_mode1setpoint"));
@@ -344,83 +344,83 @@ public:
         groupbox_mode2setpoints->setGeometry(QRect(10, 20, 421, 181));
         label_7 = new QLabel(groupbox_mode2setpoints);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setGeometry(QRect(160, 20, 71, 16));
+        label_7->setGeometry(QRect(164, 10, 71, 16));
         label_7->setFont(font2);
         label_8 = new QLabel(groupbox_mode2setpoints);
         label_8->setObjectName(QString::fromUtf8("label_8"));
-        label_8->setGeometry(QRect(160, 90, 81, 16));
+        label_8->setGeometry(QRect(164, 70, 81, 16));
         label_8->setFont(font2);
         checkbox_mode2write = new QCheckBox(groupbox_mode2setpoints);
         checkbox_mode2write->setObjectName(QString::fromUtf8("checkbox_mode2write"));
-        checkbox_mode2write->setGeometry(QRect(290, 60, 110, 21));
+        checkbox_mode2write->setGeometry(QRect(294, 50, 110, 21));
         checkbox_mode2write->setFont(font2);
         lineedit_mode2filename = new QLineEdit(groupbox_mode2setpoints);
         lineedit_mode2filename->setObjectName(QString::fromUtf8("lineedit_mode2filename"));
-        lineedit_mode2filename->setGeometry(QRect(290, 40, 90, 20));
+        lineedit_mode2filename->setGeometry(QRect(294, 30, 90, 20));
         lineedit_mode2filename->setFont(font5);
         label_9 = new QLabel(groupbox_mode2setpoints);
         label_9->setObjectName(QString::fromUtf8("label_9"));
-        label_9->setGeometry(QRect(386, 40, 28, 16));
+        label_9->setGeometry(QRect(390, 30, 28, 16));
         label_9->setFont(font1);
         label_10 = new QLabel(groupbox_mode2setpoints);
         label_10->setObjectName(QString::fromUtf8("label_10"));
-        label_10->setGeometry(QRect(290, 20, 71, 16));
+        label_10->setGeometry(QRect(294, 10, 71, 16));
         label_10->setFont(font2);
         lineedit_mode2picname = new QLineEdit(groupbox_mode2setpoints);
         lineedit_mode2picname->setObjectName(QString::fromUtf8("lineedit_mode2picname"));
-        lineedit_mode2picname->setGeometry(QRect(290, 120, 90, 20));
+        lineedit_mode2picname->setGeometry(QRect(294, 110, 90, 20));
         lineedit_mode2picname->setFont(font5);
         label_11 = new QLabel(groupbox_mode2setpoints);
         label_11->setObjectName(QString::fromUtf8("label_11"));
-        label_11->setGeometry(QRect(385, 120, 28, 16));
+        label_11->setGeometry(QRect(389, 110, 28, 16));
         label_11->setFont(font1);
         label_12 = new QLabel(groupbox_mode2setpoints);
         label_12->setObjectName(QString::fromUtf8("label_12"));
-        label_12->setGeometry(QRect(290, 100, 91, 16));
+        label_12->setGeometry(QRect(294, 90, 91, 16));
         label_12->setFont(font2);
         pushbutton_mode2saveplot = new QPushButton(groupbox_mode2setpoints);
         pushbutton_mode2saveplot->setObjectName(QString::fromUtf8("pushbutton_mode2saveplot"));
-        pushbutton_mode2saveplot->setGeometry(QRect(290, 150, 75, 23));
+        pushbutton_mode2saveplot->setGeometry(QRect(294, 140, 75, 23));
         pushbutton_mode2saveplot->setFont(font5);
         pushbutton_mode2setcontrolpoints = new QPushButton(groupbox_mode2setpoints);
         pushbutton_mode2setcontrolpoints->setObjectName(QString::fromUtf8("pushbutton_mode2setcontrolpoints"));
-        pushbutton_mode2setcontrolpoints->setGeometry(QRect(10, 150, 60, 23));
+        pushbutton_mode2setcontrolpoints->setGeometry(QRect(140, 140, 60, 23));
         pushbutton_mode2setcontrolpoints->setFont(font5);
         pushbutton_mode2stop = new QPushButton(groupbox_mode2setpoints);
         pushbutton_mode2stop->setObjectName(QString::fromUtf8("pushbutton_mode2stop"));
-        pushbutton_mode2stop->setGeometry(QRect(90, 150, 60, 23));
+        pushbutton_mode2stop->setGeometry(QRect(210, 140, 60, 23));
         pushbutton_mode2stop->setFont(font5);
         lineedit_mode2addtime = new QLineEdit(groupbox_mode2setpoints);
         lineedit_mode2addtime->setObjectName(QString::fromUtf8("lineedit_mode2addtime"));
-        lineedit_mode2addtime->setGeometry(QRect(10, 90, 60, 20));
+        lineedit_mode2addtime->setGeometry(QRect(10, 80, 60, 20));
         lineedit_mode2addtime->setFont(font5);
         lineedit_mode2addtemperature = new QLineEdit(groupbox_mode2setpoints);
         lineedit_mode2addtemperature->setObjectName(QString::fromUtf8("lineedit_mode2addtemperature"));
-        lineedit_mode2addtemperature->setGeometry(QRect(90, 90, 60, 20));
+        lineedit_mode2addtemperature->setGeometry(QRect(90, 80, 60, 20));
         lineedit_mode2addtemperature->setFont(font5);
         pushbutton_mode2clear = new QPushButton(groupbox_mode2setpoints);
         pushbutton_mode2clear->setObjectName(QString::fromUtf8("pushbutton_mode2clear"));
-        pushbutton_mode2clear->setGeometry(QRect(110, 120, 40, 23));
+        pushbutton_mode2clear->setGeometry(QRect(40, 140, 71, 23));
         pushbutton_mode2clear->setFont(font5);
         pushbutton_mode2addpoint = new QPushButton(groupbox_mode2setpoints);
         pushbutton_mode2addpoint->setObjectName(QString::fromUtf8("pushbutton_mode2addpoint"));
-        pushbutton_mode2addpoint->setGeometry(QRect(10, 120, 40, 23));
+        pushbutton_mode2addpoint->setGeometry(QRect(10, 110, 60, 23));
         pushbutton_mode2addpoint->setFont(font5);
         pushbutton_mode2removepoint = new QPushButton(groupbox_mode2setpoints);
         pushbutton_mode2removepoint->setObjectName(QString::fromUtf8("pushbutton_mode2removepoint"));
-        pushbutton_mode2removepoint->setGeometry(QRect(60, 120, 40, 23));
+        pushbutton_mode2removepoint->setGeometry(QRect(90, 110, 61, 23));
         pushbutton_mode2removepoint->setFont(font5);
         label_14 = new QLabel(groupbox_mode2setpoints);
         label_14->setObjectName(QString::fromUtf8("label_14"));
-        label_14->setGeometry(QRect(90, 70, 50, 13));
+        label_14->setGeometry(QRect(80, 60, 81, 16));
         label_14->setFont(font2);
         label_15 = new QLabel(groupbox_mode2setpoints);
         label_15->setObjectName(QString::fromUtf8("label_15"));
-        label_15->setGeometry(QRect(10, 70, 71, 16));
+        label_15->setGeometry(QRect(10, 60, 71, 16));
         label_15->setFont(font2);
         lineedit_mode2startingtemperature = new QLineEdit(groupbox_mode2setpoints);
         lineedit_mode2startingtemperature->setObjectName(QString::fromUtf8("lineedit_mode2startingtemperature"));
-        lineedit_mode2startingtemperature->setGeometry(QRect(10, 40, 71, 20));
+        lineedit_mode2startingtemperature->setGeometry(QRect(10, 30, 71, 20));
         lineedit_mode2startingtemperature->setFont(font5);
         lineedit_mode2startingtemperature->setInputMethodHints(Qt::ImhNone);
         lineedit_mode2startingtemperature->setMaxLength(3);
@@ -428,11 +428,11 @@ public:
         lineedit_mode2startingtemperature->setClearButtonEnabled(false);
         pushbutton_mode2setstartingtemperature = new QPushButton(groupbox_mode2setpoints);
         pushbutton_mode2setstartingtemperature->setObjectName(QString::fromUtf8("pushbutton_mode2setstartingtemperature"));
-        pushbutton_mode2setstartingtemperature->setGeometry(QRect(90, 40, 60, 23));
+        pushbutton_mode2setstartingtemperature->setGeometry(QRect(90, 30, 60, 23));
         pushbutton_mode2setstartingtemperature->setFont(font5);
         label_24 = new QLabel(groupbox_mode2setpoints);
         label_24->setObjectName(QString::fromUtf8("label_24"));
-        label_24->setGeometry(QRect(10, 20, 161, 16));
+        label_24->setGeometry(QRect(10, 10, 150, 16));
         label_24->setFont(font2);
         label_7->raise();
         label_8->raise();
@@ -458,34 +458,35 @@ public:
         lineedit_mode2addtime->raise();
         horizontalframe_plot2 = new QFrame(groupbox_mode2);
         horizontalframe_plot2->setObjectName(QString::fromUtf8("horizontalframe_plot2"));
+        horizontalframe_plot2->setEnabled(false);
         horizontalframe_plot2->setGeometry(QRect(440, 20, 581, 431));
         horizontallayout_plot1_2 = new QHBoxLayout(horizontalframe_plot2);
         horizontallayout_plot1_2->setObjectName(QString::fromUtf8("horizontallayout_plot1_2"));
         label_relay1_2 = new QLabel(groupbox_mode2);
         label_relay1_2->setObjectName(QString::fromUtf8("label_relay1_2"));
-        label_relay1_2->setGeometry(QRect(245, 60, 21, 30));
+        label_relay1_2->setGeometry(QRect(249, 50, 21, 30));
         label_relay1_2->setFont(font2);
         label_relay2_2 = new QLabel(groupbox_mode2);
         label_relay2_2->setObjectName(QString::fromUtf8("label_relay2_2"));
-        label_relay2_2->setGeometry(QRect(245, 130, 21, 30));
+        label_relay2_2->setGeometry(QRect(249, 110, 21, 30));
         label_relay2_2->setFont(font2);
         lcdnumber_mode2currentval1 = new QLCDNumber(groupbox_mode2);
         lcdnumber_mode2currentval1->setObjectName(QString::fromUtf8("lcdnumber_mode2currentval1"));
-        lcdnumber_mode2currentval1->setGeometry(QRect(168, 60, 71, 31));
+        lcdnumber_mode2currentval1->setGeometry(QRect(172, 50, 71, 31));
         lcdnumber_mode2currentval1->setFrameShape(QFrame::Box);
         lcdnumber_mode2currentval1->setLineWidth(2);
         lcdnumber_mode2currentval1->setProperty("intValue", QVariant(0));
         lcdnumber_mode2currentval2 = new QLCDNumber(groupbox_mode2);
         lcdnumber_mode2currentval2->setObjectName(QString::fromUtf8("lcdnumber_mode2currentval2"));
-        lcdnumber_mode2currentval2->setGeometry(QRect(168, 130, 71, 31));
+        lcdnumber_mode2currentval2->setGeometry(QRect(172, 110, 71, 31));
         lcdnumber_mode2currentval2->setLineWidth(2);
         label_mode2relay1status = new QLabel(groupbox_mode2);
         label_mode2relay1status->setObjectName(QString::fromUtf8("label_mode2relay1status"));
-        label_mode2relay1status->setGeometry(QRect(270, 60, 25, 30));
+        label_mode2relay1status->setGeometry(QRect(274, 50, 25, 30));
         label_mode2relay1status->setFont(font2);
         label_mode2relay2status = new QLabel(groupbox_mode2);
         label_mode2relay2status->setObjectName(QString::fromUtf8("label_mode2relay2status"));
-        label_mode2relay2status->setGeometry(QRect(270, 130, 25, 30));
+        label_mode2relay2status->setGeometry(QRect(274, 110, 25, 30));
         label_mode2relay2status->setFont(font2);
         horizontalframe_trendplot2 = new QFrame(groupbox_mode2);
         horizontalframe_trendplot2->setObjectName(QString::fromUtf8("horizontalframe_trendplot2"));
@@ -516,9 +517,9 @@ public:
         radiobutton_mode1->setCheckable(true);
         radiobutton_mode1->setChecked(true);
         MainWindow->setCentralWidget(centralwidget);
-        groupbox_mode1->raise();
         groupbox_connection->raise();
         groupbox_controlmode->raise();
+        groupbox_mode1->raise();
         groupbox_mode2->raise();
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -539,10 +540,10 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "OVEN", nullptr));
-        groupbox_connection->setTitle(QApplication::translate("MainWindow", "Connected to:", nullptr));
-        button_connect->setText(QApplication::translate("MainWindow", "Connect", nullptr));
-        lineedit_comport->setText(QApplication::translate("MainWindow", "com4", nullptr));
-        label_comport->setText(QApplication::translate("MainWindow", "Serial Port:", nullptr));
+        groupbox_connection->setTitle(QApplication::translate("MainWindow", "\320\237\320\276\320\264\320\272\320\273\321\216\321\207\320\265\320\275\320\270\320\265:", nullptr));
+        button_connect->setText(QApplication::translate("MainWindow", "\320\241\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\320\265", nullptr));
+        lineedit_comport->setText(QString());
+        label_comport->setText(QApplication::translate("MainWindow", "\320\235\320\276\320\274\320\265\321\200 \320\241\320\236\320\234:", nullptr));
         combobox_baudrate->setItemText(0, QApplication::translate("MainWindow", "2400", nullptr));
         combobox_baudrate->setItemText(1, QApplication::translate("MainWindow", "4800", nullptr));
         combobox_baudrate->setItemText(2, QApplication::translate("MainWindow", "9600", nullptr));
@@ -553,10 +554,10 @@ public:
         combobox_baudrate->setItemText(7, QApplication::translate("MainWindow", "57600", nullptr));
         combobox_baudrate->setItemText(8, QApplication::translate("MainWindow", "115200", nullptr));
 
-        label_baudrate->setText(QApplication::translate("MainWindow", "Baud Rate:", nullptr));
+        label_baudrate->setText(QApplication::translate("MainWindow", "\320\247\320\260\321\201\321\202\320\276\321\202\320\260 \320\221\320\276\320\264:", nullptr));
         lineedit_slaveid->setText(QApplication::translate("MainWindow", "1", nullptr));
-        label_slaveid->setText(QApplication::translate("MainWindow", "Slave ID:", nullptr));
-        button_disconnect->setText(QApplication::translate("MainWindow", "Disconnect", nullptr));
+        label_slaveid->setText(QApplication::translate("MainWindow", "ID \320\232\320\276\320\275\321\202\321\200\320\276\320\273\320\273\320\265\321\200\320\260:", nullptr));
+        button_disconnect->setText(QApplication::translate("MainWindow", "\320\240\320\260\320\267\321\200\321\213\320\262", nullptr));
 #ifndef QT_NO_SHORTCUT
         button_disconnect->setShortcut(QApplication::translate("MainWindow", "Ctrl+D", nullptr));
 #endif // QT_NO_SHORTCUT
@@ -568,43 +569,43 @@ public:
         label_iderror->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>e.g. &quot;1&quot;</p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
         label_iderror->setText(QApplication::translate("MainWindow", "HELP", nullptr));
-        label_status->setText(QApplication::translate("MainWindow", "STATUS:", nullptr));
-        label_connectionstatus->setText(QApplication::translate("MainWindow", "disconnected", nullptr));
-        pushbutton_themechange->setText(QApplication::translate("MainWindow", "Theme Inversion", nullptr));
+        label_status->setText(QApplication::translate("MainWindow", "\320\241\320\242\320\220\320\242\320\243\320\241:", nullptr));
+        label_connectionstatus->setText(QApplication::translate("MainWindow", "\320\276\321\202\320\272\320\273\321\216\321\207\320\265\320\275\320\276", nullptr));
+        pushbutton_themechange->setText(QApplication::translate("MainWindow", "\320\241\320\274\320\265\320\275\320\270\321\202\321\214 \320\242\320\265\320\274\321\203", nullptr));
 #ifndef QT_NO_SHORTCUT
         pushbutton_themechange->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+T", nullptr));
 #endif // QT_NO_SHORTCUT
-        groupbox_mode1->setTitle(QApplication::translate("MainWindow", "Mode 1:", nullptr));
-        groupbox_setpoints->setTitle(QApplication::translate("MainWindow", "Set Points", nullptr));
-        label_mode1setpoint->setText(QApplication::translate("MainWindow", "Temperature Set:", nullptr));
+        groupbox_mode1->setTitle(QApplication::translate("MainWindow", "\320\240\320\265\320\266\320\270\320\274 1:", nullptr));
+        groupbox_setpoints->setTitle(QString());
+        label_mode1setpoint->setText(QApplication::translate("MainWindow", "\320\243\321\201\321\202\320\260\320\262\320\272\320\260 \320\277\320\276 \321\202\320\265\320\274\320\277\320\265\321\200\320\260\321\202\321\203\321\200\320\265:", nullptr));
 #ifndef QT_NO_TOOLTIP
         pushbutton_mode1setpoint->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Start heating and plotting</p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
-        pushbutton_mode1setpoint->setText(QApplication::translate("MainWindow", "Set", nullptr));
+        pushbutton_mode1setpoint->setText(QApplication::translate("MainWindow", "\320\237\321\203\321\201\320\272", nullptr));
 #ifndef QT_NO_SHORTCUT
         pushbutton_mode1setpoint->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+S", nullptr));
 #endif // QT_NO_SHORTCUT
-        pushbutton_stopmode1->setText(QApplication::translate("MainWindow", "Stop", nullptr));
+        pushbutton_stopmode1->setText(QApplication::translate("MainWindow", "\320\241\321\202\320\276\320\277", nullptr));
 #ifndef QT_NO_SHORTCUT
         pushbutton_stopmode1->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+S", nullptr));
 #endif // QT_NO_SHORTCUT
 #ifndef QT_NO_TOOLTIP
         label->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Channel 2 measurement</p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
-        label->setText(QApplication::translate("MainWindow", "CHANNEL 1", nullptr));
+        label->setText(QApplication::translate("MainWindow", "\320\232\320\220\320\235\320\220\320\233 1", nullptr));
 #ifndef QT_NO_TOOLTIP
         label_2->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Channel 2 measurement</p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
-        label_2->setText(QApplication::translate("MainWindow", "CHANNEL 2", nullptr));
-        checkbox_mode1write->setText(QApplication::translate("MainWindow", "Write File", nullptr));
+        label_2->setText(QApplication::translate("MainWindow", "\320\232\320\220\320\235\320\220\320\233 2", nullptr));
+        checkbox_mode1write->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\277\320\270\321\201\321\214 \320\262 \321\204\320\260\320\271\320\273", nullptr));
 #ifndef QT_NO_SHORTCUT
         checkbox_mode1write->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+W", nullptr));
 #endif // QT_NO_SHORTCUT
         label_3->setText(QApplication::translate("MainWindow", ".csv", nullptr));
-        label_4->setText(QApplication::translate("MainWindow", "File Name:", nullptr));
+        label_4->setText(QApplication::translate("MainWindow", "\320\230\320\274\321\217 \321\204\320\260\320\271\320\273\320\260:", nullptr));
         label_5->setText(QApplication::translate("MainWindow", ".bmp", nullptr));
-        label_6->setText(QApplication::translate("MainWindow", "Image Name:", nullptr));
-        pushbutton_mode1saveplot->setText(QApplication::translate("MainWindow", "Save Plot", nullptr));
+        label_6->setText(QApplication::translate("MainWindow", "\320\230\320\274\321\217 \320\272\320\260\321\200\321\202\320\270\320\275\320\272\320\270:", nullptr));
+        pushbutton_mode1saveplot->setText(QApplication::translate("MainWindow", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214", nullptr));
 #ifndef QT_NO_TOOLTIP
         label_relay1->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Relay output 1 status</p><p>NaN - NO INFO</p><p>0 - OFF</p><p>1 - ON</p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
@@ -615,47 +616,47 @@ public:
         label_relay2->setText(QApplication::translate("MainWindow", "K2:", nullptr));
         label_relay1status->setText(QApplication::translate("MainWindow", "NaN", nullptr));
         label_relay2status->setText(QApplication::translate("MainWindow", "NaN", nullptr));
-        groupbox_mode2->setTitle(QApplication::translate("MainWindow", "Mode 2:", nullptr));
-        groupbox_mode2setpoints->setTitle(QApplication::translate("MainWindow", "Control Points", nullptr));
+        groupbox_mode2->setTitle(QApplication::translate("MainWindow", "\320\240\320\265\320\266\320\270\320\274 2:", nullptr));
+        groupbox_mode2setpoints->setTitle(QString());
 #ifndef QT_NO_TOOLTIP
         label_7->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Channel 2 measurement</p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
-        label_7->setText(QApplication::translate("MainWindow", "CHANNEL 1", nullptr));
+        label_7->setText(QApplication::translate("MainWindow", "\320\232\320\220\320\235\320\220\320\233 1", nullptr));
 #ifndef QT_NO_TOOLTIP
         label_8->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Channel 2 measurement</p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
-        label_8->setText(QApplication::translate("MainWindow", "CHANNEL 2", nullptr));
-        checkbox_mode2write->setText(QApplication::translate("MainWindow", "Write File", nullptr));
+        label_8->setText(QApplication::translate("MainWindow", "\320\232\320\220\320\235\320\220\320\233 2", nullptr));
+        checkbox_mode2write->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\277\320\270\321\201\321\214 \320\262 \321\204\320\260\320\271\320\273", nullptr));
 #ifndef QT_NO_SHORTCUT
         checkbox_mode2write->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+W", nullptr));
 #endif // QT_NO_SHORTCUT
         label_9->setText(QApplication::translate("MainWindow", ".csv", nullptr));
-        label_10->setText(QApplication::translate("MainWindow", "File Name:", nullptr));
+        label_10->setText(QApplication::translate("MainWindow", "\320\230\320\274\321\217 \321\204\320\260\320\271\320\273\320\260:", nullptr));
         label_11->setText(QApplication::translate("MainWindow", ".bmp", nullptr));
-        label_12->setText(QApplication::translate("MainWindow", "Image Name:", nullptr));
-        pushbutton_mode2saveplot->setText(QApplication::translate("MainWindow", "Save Plot", nullptr));
-        pushbutton_mode2setcontrolpoints->setText(QApplication::translate("MainWindow", "Start", nullptr));
+        label_12->setText(QApplication::translate("MainWindow", "\320\230\320\274\321\217 \320\272\320\260\321\200\321\202\320\270\320\275\320\272\320\270:", nullptr));
+        pushbutton_mode2saveplot->setText(QApplication::translate("MainWindow", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214", nullptr));
+        pushbutton_mode2setcontrolpoints->setText(QApplication::translate("MainWindow", "\320\237\321\203\321\201\320\272", nullptr));
 #ifndef QT_NO_SHORTCUT
         pushbutton_mode2setcontrolpoints->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+S", nullptr));
 #endif // QT_NO_SHORTCUT
-        pushbutton_mode2stop->setText(QApplication::translate("MainWindow", "Stop", nullptr));
+        pushbutton_mode2stop->setText(QApplication::translate("MainWindow", "\320\241\321\202\320\276\320\277", nullptr));
 #ifndef QT_NO_SHORTCUT
         pushbutton_mode2stop->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+S", nullptr));
 #endif // QT_NO_SHORTCUT
-        pushbutton_mode2clear->setText(QApplication::translate("MainWindow", "Clear", nullptr));
+        pushbutton_mode2clear->setText(QApplication::translate("MainWindow", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214", nullptr));
 #ifndef QT_NO_SHORTCUT
         pushbutton_mode2clear->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+C", nullptr));
 #endif // QT_NO_SHORTCUT
-        pushbutton_mode2addpoint->setText(QApplication::translate("MainWindow", "Add", nullptr));
-        pushbutton_mode2removepoint->setText(QApplication::translate("MainWindow", "Del", nullptr));
+        pushbutton_mode2addpoint->setText(QApplication::translate("MainWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214", nullptr));
+        pushbutton_mode2removepoint->setText(QApplication::translate("MainWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214", nullptr));
 #ifndef QT_NO_SHORTCUT
         pushbutton_mode2removepoint->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+D", nullptr));
 #endif // QT_NO_SHORTCUT
-        label_14->setText(QApplication::translate("MainWindow", "Temp, C", nullptr));
-        label_15->setText(QApplication::translate("MainWindow", "Time, sec", nullptr));
+        label_14->setText(QApplication::translate("MainWindow", "\320\242\320\265\320\274\320\277\320\265\321\200\320\260\321\202\321\203\321\200\320\260", nullptr));
+        label_15->setText(QApplication::translate("MainWindow", "\320\241\320\272\320\276\321\200\320\276\321\201\321\202\321\214", nullptr));
         lineedit_mode2startingtemperature->setText(QString());
-        pushbutton_mode2setstartingtemperature->setText(QApplication::translate("MainWindow", "Set", nullptr));
-        label_24->setText(QApplication::translate("MainWindow", "Starting Temperature, C", nullptr));
+        pushbutton_mode2setstartingtemperature->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\264\320\260\321\202\321\214", nullptr));
+        label_24->setText(QApplication::translate("MainWindow", "\320\230\321\201\321\205\320\276\320\264\320\275\320\260\321\217 \321\202\320\265\320\274\320\277\320\265\321\200\320\260\321\202\321\203\321\200\320\260", nullptr));
 #ifndef QT_NO_TOOLTIP
         label_relay1_2->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Relay output 1 status</p><p>NaN - NO INFO</p><p>0 - OFF</p><p>1 - ON</p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
@@ -666,13 +667,13 @@ public:
         label_relay2_2->setText(QApplication::translate("MainWindow", "K2:", nullptr));
         label_mode2relay1status->setText(QApplication::translate("MainWindow", "NaN", nullptr));
         label_mode2relay2status->setText(QApplication::translate("MainWindow", "NaN", nullptr));
-        label_13->setText(QApplication::translate("MainWindow", "Trend Plot:", nullptr));
-        groupbox_controlmode->setTitle(QApplication::translate("MainWindow", "Control Mode:", nullptr));
-        radiobutton_mode2->setText(QApplication::translate("MainWindow", "Mode 2", nullptr));
+        label_13->setText(QApplication::translate("MainWindow", "\320\237\321\200\320\276\321\204\320\270\320\273\321\214:", nullptr));
+        groupbox_controlmode->setTitle(QApplication::translate("MainWindow", "\320\240\320\265\320\266\320\270\320\274 \321\203\320\277\321\200\320\260\320\262\320\273\320\265\320\275\320\270\321\217:", nullptr));
+        radiobutton_mode2->setText(QApplication::translate("MainWindow", "\320\240\320\265\320\266\320\270\320\274 2", nullptr));
 #ifndef QT_NO_SHORTCUT
         radiobutton_mode2->setShortcut(QApplication::translate("MainWindow", "F2", nullptr));
 #endif // QT_NO_SHORTCUT
-        radiobutton_mode1->setText(QApplication::translate("MainWindow", "Mode 1", nullptr));
+        radiobutton_mode1->setText(QApplication::translate("MainWindow", "\320\240\320\265\320\266\320\270\320\274 1", nullptr));
 #ifndef QT_NO_SHORTCUT
         radiobutton_mode1->setShortcut(QApplication::translate("MainWindow", "F1", nullptr));
 #endif // QT_NO_SHORTCUT
