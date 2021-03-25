@@ -1,0 +1,14 @@
+***START***
+Button Connect BEGIN
+Seraial OK. COM name: com4
+Slave ID OK. ID: 
+Baud Rate: 9600
+MODBUS DISCONNECTED
+Button Connect END
+Button Connect BEGIN
+Seraial OK. COM name: com3
+Slave ID OK. ID: 
+Baud Rate: 9600
+MODBUS CONNECTED
+Refresh Plot 1 BEGIN
+Refresh Plot 1 END

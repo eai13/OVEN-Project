@@ -1,0 +1,44 @@
+***START***
+Button Connect BEGIN
+Seraial OK. COM name: com3
+Slave ID OK. ID: 
+Baud Rate: 9600
+MODBUS CONNECTED
+Refresh Plot 1 BEGIN
+Refresh Plot 1 END
+OVEN coil r_L1 - 1
+OVEN coil rout1 - 0
+OVEN coil SP1 - 0
+Button Connect END
+Refresh Plot 1 BEGIN
+Refresh Plot 1 END
+Refresh Plot 1 BEGIN
+Refresh Plot 1 END
+Button Disconnect BEGIN
+OVEN coil rout1 - 0
+Refresh Plot 1 BEGIN
+Refresh Plot 1 END
+Button Disconnect END
+Button Connect BEGIN
+Seraial OK. COM name: com2
+Slave ID OK. ID: 
+Baud Rate: 9600
+MODBUS DISCONNECTED
+Button Connect END
+Button Connect BEGIN
+Seraial OK. COM name: com2
+Slave ID OK. ID: 
+Baud Rate: 9600
+MODBUS DISCONNECTED
+Button Connect END
+Button Connect BEGIN
+Seraial OK. COM name: com3
+Slave ID OK. ID: 
+Baud Rate: 9600
+MODBUS CONNECTED
+Refresh Plot 1 BEGIN
+Refresh Plot 1 END
+OVEN coil r_L1 - 1
+OVEN coil rout1 - 0
+OVEN coil SP1 - 0
+Button Connect END
