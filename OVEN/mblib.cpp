@@ -19,19 +19,24 @@ uint8_t modbus_connection::set_coil(uint16_t address, uint16_t value){
 	uint16_t 	CRC = get_CRC(bytes, 9);
 	// Writing the package to the net
     *(this->log_file) << "set_coil 1";
-    while(WriteFile(this->slave_serial, &(this->slave_id), 1, &(this->isize), 0) == 0){std::cout << "Error writing 1" << std::endl;}
-    while(WriteFile(this->slave_serial, &command, 1, &(this->isize), 0) == 0){std::cout << "Error writing 2" << std::endl;}
-    while(WriteFile(this->slave_serial, &start_reg, 2, &(this->isize), 0) == 0){std::cout << "Error writing 3" << std::endl;}
-    while(WriteFile(this->slave_serial, &regs_amount, 2, &(this->isize), 0) == 0){std::cout << "Error writing 4" << std::endl;}
-    while(WriteFile(this->slave_serial, &next_bytes, 1, &(this->isize), 0) == 0){std::cout << "Error writing 5" << std::endl;}
-    while(WriteFile(this->slave_serial, &data, 2, &(this->isize), 0) == 0){std::cout << "Error writing 6" << std::endl;}
-    while(WriteFile(this->slave_serial, &CRC, 2, &(this->isize), 0) == 0){std::cout << "Error writing 7" << std::endl;}
+    WriteFile(this->slave_serial, &(this->slave_id), 1, &(this->isize), 0);
+    WriteFile(this->slave_serial, &command, 1, &(this->isize), 0);
+    WriteFile(this->slave_serial, &start_reg, 2, &(this->isize), 0);
+    WriteFile(this->slave_serial, &regs_amount, 2, &(this->isize), 0);
+    WriteFile(this->slave_serial, &next_bytes, 1, &(this->isize), 0);
+    WriteFile(this->slave_serial, &data, 2, &(this->isize), 0);
+    WriteFile(this->slave_serial, &CRC, 2, &(this->isize), 0);
     *(this->log_file) << "Write fine" << std::endl;
     Sleep(50);
 	// Read the serial port
     *(this->log_file) << "Read answer" << std::endl;
     ReadFile(this->slave_serial, bytes, 8, &(this->isize), 0);
     *(this->log_file) << "Read fine " << (int16_t)(this->isize) << std::endl;
+    if (this->isize != 8){
+        *(this->log_file) << "READING CORRUPTED" << std::endl;
+        this->busy = 0;
+        return 1;
+    }
 	// If no coils were set then error
     this->busy = 0;
 	if (bytes[5] != 0) return 0;
@@ -54,22 +59,31 @@ uint8_t modbus_connection::get_coil(uint16_t address, float & value){
 	uint16_t	CRC = get_CRC(bytes, 6);
     // Writing the package to the net
     *(this->log_file) << "get_coil_fl 1";
-    while(WriteFile(this->slave_serial, &(this->slave_id), 1, &(this->isize), 0) == 0){std::cout << "Error writing 0" << std::endl;}
-    while(WriteFile(this->slave_serial, &command, 1, &(this->isize), 0) == 0){std::cout << "Error writing 1" << std::endl;}
-    while(WriteFile(this->slave_serial, &start_reg, 2, &(this->isize), 0) == 0){std::cout << "Error writing 2" << std::endl;}
-    while(WriteFile(this->slave_serial, &regs_amount, 2, &(this->isize), 0) == 0){std::cout << "Error writing 3" << std::endl;}
-    while(WriteFile(this->slave_serial, &CRC, 2, &(this->isize), 0) == 0){std::cout << "Error writing 4" << std::endl;}
+    WriteFile(this->slave_serial, &(this->slave_id), 1, &(this->isize), 0);
+    WriteFile(this->slave_serial, &command, 1, &(this->isize), 0);
+    WriteFile(this->slave_serial, &start_reg, 2, &(this->isize), 0);
+    WriteFile(this->slave_serial, &regs_amount, 2, &(this->isize), 0);
+    WriteFile(this->slave_serial, &CRC, 2, &(this->isize), 0);
     *(this->log_file) << "Write fine" << std::endl;
     Sleep(50);
     // Read the serial port
     *(this->log_file) << "Read answer" << std::endl;
     if (ReadFile(this->slave_serial, bytes, 7, &(this->isize), 0) == 0){
         *(this->log_file) << "Read fine " << (int16_t)(this->isize) << std::endl;
-        this->busy = 0;
+        if (this->isize != 7){
+            *(this->log_file) << "READING CORRUPTED" << std::endl;
+            this->busy = 0;
+            return 1;
+        }
         return 1;
     }
 	else{
         *(this->log_file) << "Read fine " << (int16_t)(this->isize) << std::endl;
+        if (this->isize != 7){
+            *(this->log_file) << "READING CORRUPTED" << std::endl;
+            this->busy = 0;
+            return 1;
+        }
         int16_t output = ((bytes[3] << 8) | bytes[4]);
         value = (float)output / 10;
         this->busy = 0;
@@ -93,22 +107,32 @@ uint8_t modbus_connection::get_coil(uint16_t address, int16_t & value){
     uint16_t	CRC = get_CRC(bytes, 6);
     // Writing the package to the net
     *(this->log_file) << "get_coil_int 1";
-    while(WriteFile(this->slave_serial, &(this->slave_id), 1, &(this->isize), 0) == 0){std::cout << "Error writing 0" << std::endl;}
-    while(WriteFile(this->slave_serial, &command, 1, &(this->isize), 0) == 0){std::cout << "Error writing 1" << std::endl;}
-    while(WriteFile(this->slave_serial, &start_reg, 2, &(this->isize), 0) == 0){std::cout << "Error writing 2" << std::endl;}
-    while(WriteFile(this->slave_serial, &regs_amount, 2, &(this->isize), 0) == 0){std::cout << "Error writing 3" << std::endl;}
-    while(WriteFile(this->slave_serial, &CRC, 2, &(this->isize), 0) == 0){std::cout << "Error writing 4" << std::endl;}
+    WriteFile(this->slave_serial, &(this->slave_id), 1, &(this->isize), 0);
+    WriteFile(this->slave_serial, &command, 1, &(this->isize), 0);
+    WriteFile(this->slave_serial, &start_reg, 2, &(this->isize), 0);
+    WriteFile(this->slave_serial, &regs_amount, 2, &(this->isize), 0);
+    WriteFile(this->slave_serial, &CRC, 2, &(this->isize), 0);
     *(this->log_file) << "Write fine" << std::endl;
     Sleep(50);
     // Read the serial port
     *(this->log_file) << "Read answer" << std::endl;
     if (ReadFile(this->slave_serial, bytes, 7, &(this->isize), 0) == 0){
+        if (this->isize != 7){
+            *(this->log_file) << "READING CORRUPTED" << std::endl;
+            this->busy = 0;
+            return 1;
+        }
         this->busy = 0;
         *(this->log_file) << "Read fine " << (int16_t)this->isize << std::endl;
         return 1;
     }
     else{
         *(this->log_file) << "Read fine" << (int16_t)(this->isize) << std::endl;
+        if (this->isize != 7){
+            *(this->log_file) << "READING CORRUPTED" << std::endl;
+            this->busy = 0;
+            return 1;
+        }
         value = ((bytes[3] << 8) | bytes[4]);
         this->busy = 0;
         return 0;

@@ -40,6 +40,7 @@ struct modbus_connection{
                 std::wcout << "ERROR (" << serial_name << ") : Get State" << std::endl;
 				this->CONNECTED_FLAG = 0;
                 CloseHandle(this->slave_serial);
+                return;
 			}
 			parameters.BaudRate = baud;
 			parameters.ByteSize = byte_size;
@@ -49,11 +50,27 @@ struct modbus_connection{
                 std::wcout << "ERROR (" << serial_name << ") : Setting Parameters" << std::endl;
 				this->CONNECTED_FLAG = 0;
                 CloseHandle(this->slave_serial);
+                return;
 			}
 			else{
                 std::wcout << "PARAMETERS SET (" << serial_name << ") : " << baud << " BR, " << (uint16_t)stop_bits << " Stop Bits, " << (uint16_t)parity << " Parity, " << (uint16_t)byte_size << " Byte Size" << std::endl;
 				this->CONNECTED_FLAG = 1;
 			}
+            // Setting up timeouts
+            _COMMTIMEOUTS timeout_params;
+            timeout_params.ReadIntervalTimeout = 200;
+            timeout_params.ReadTotalTimeoutConstant = 200;
+            timeout_params.ReadTotalTimeoutMultiplier = 100;
+            timeout_params.WriteTotalTimeoutConstant = 200;
+            timeout_params.WriteTotalTimeoutMultiplier = 100;
+            if (!SetCommTimeouts(this->slave_serial, &timeout_params)){
+                *(this->log_file) << "Serial timeout setting error" << std::endl;
+                CloseHandle(this->slave_serial);
+                return;
+            }
+            else{
+                *(this->log_file) << "Serial timeout setting successful" << std::endl;
+            }
             this->busy = 0;
 		}
 		

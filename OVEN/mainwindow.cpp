@@ -258,7 +258,34 @@ void MainWindow::on_button_connect_clicked(){
     OVEN = new modbus_connection(serial_name_w, baud_rate, 2, 0, 8, slave_id, &log_file);
     // Check for connection
     if (OVEN->check_connection() == 1){
+        // Banning autonomous control
+        if (OVEN->set_coil(r_L1, 1) == 1){
+            log_file << "Error COM setting coils" << std::endl;
+            OVEN->disconnect();
+            return;
+        }
+        log_file << "OVEN coil r_L1 - 1" << std::endl;
+
+        // Turning off the relays
+        if (OVEN->set_coil(rout1, 0) == 1){
+            log_file << "Error COM setting coils" << std::endl;
+            OVEN->disconnect();
+            return;
+        }
+        log_file << "OVEN coil rout1 - 0" << std::endl;
+
+        // Setting low set points
+        if (OVEN->set_coil(SP1, 0) == 1){
+            log_file << "Error COM setting coils" << std::endl;
+            OVEN->disconnect();
+            return;
+        }
+        log_file << "OVEN coil SP1 - 0" << std::endl;
+
+        // Logging successful connection
         log_file << "MODBUS CONNECTED" << std::endl;
+        // Enable choosing the control mode
+        ui->groupbox_controlmode->setEnabled(true);
         // Setting availability of the objects
         ui->label_connectionstatus->setText("подключено");
         ui->button_connect->setEnabled(false);
@@ -269,21 +296,6 @@ void MainWindow::on_button_connect_clicked(){
         else if (ui->radiobutton_mode2->isChecked()){
             on_radiobutton_mode2_clicked();
         }
-
-        // Enable choosing the control mode
-        ui->groupbox_controlmode->setEnabled(true);
-
-        // Banning autonomous control
-        OVEN->set_coil(r_L1, 1);
-        log_file << "OVEN coil r_L1 - 1" << std::endl;
-
-        // Turning off the relays
-        OVEN->set_coil(rout1, 0);
-        log_file << "OVEN coil rout1 - 0" << std::endl;
-
-        // Setting low set points
-        OVEN->set_coil(SP1, 0);
-        log_file << "OVEN coil SP1 - 0" << std::endl;
     }
     else if (OVEN->check_connection() == 0){
         log_file << "MODBUS DISCONNECTED" << std::endl;
