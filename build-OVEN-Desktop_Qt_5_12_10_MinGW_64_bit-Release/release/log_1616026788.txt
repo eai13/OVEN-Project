@@ -1,4 +1,0 @@
-***STARTED***
-theme set: WHITE
-data_file_1 closed
-***CLOSED NORMALLY***

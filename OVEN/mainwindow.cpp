@@ -255,7 +255,7 @@ void MainWindow::on_button_connect_clicked(){
     log_file << "Baud Rate: " << baud_rate << std::endl;
 
     // Allocating memory for connection
-    OVEN = new modbus_connection(serial_name_w, baud_rate, 2, 0, 8, slave_id);
+    OVEN = new modbus_connection(serial_name_w, baud_rate, 2, 0, 8, slave_id, &log_file);
     // Check for connection
     if (OVEN->check_connection() == 1){
         log_file << "MODBUS CONNECTED" << std::endl;
@@ -504,7 +504,7 @@ void MainWindow::update_plot1(){
         log_file << "Data Getting and Controlling" << std::endl;
         get_data_count = 0;
         // Plotting
-        float temperature1;
+        float temperature1 = 0;
         if (series_plot1->count() >= 50) x_axis_plot1->setRange(0, x_axis_plot1->max() + 1);
         if (OVEN->get_coil(PV1, temperature1) == 0){
             log_file << "OVEN coil PV1: " << temperature1 << std::endl;
@@ -513,7 +513,7 @@ void MainWindow::update_plot1(){
             current_time_1++;
             log_file << "Current Time: " << current_time_1 << std::endl;
         }
-
+        log_file << "OVEN Reading ended" << std::endl;
         // Getting actual error value
         error[0] = error[1];
         error[1] = ui->lineedit_mode1setpoint->text().toDouble() - temperature1;
@@ -580,12 +580,12 @@ void MainWindow::update_plot2(){
         get_data_count = 0;
 
         // Getting current temperature values
-        float value_1;
+        float value_1 = 0;
         if (OVEN->get_coil(PV1, value_1) == 0){
             log_file << "OVEN coil PV1: " << value_1 << std::endl;
             ui->lcdnumber_mode2currentval1->display(value_1);
         }
-
+        log_file << "OVEN Reading ended" << std::endl;
         // Plotting
         series_plot2->append(current_time_2, value_1);
         if (series_plot2->count() >= 50) x_axis_plot2->setMax(x_axis_plot2->max() + 1);
@@ -780,7 +780,7 @@ void MainWindow::refresh_trend(void){
 // Set the point for heating
 void MainWindow::on_pushbutton_mode1setpoint_clicked(){
     // Reading the value from the input 1
-    float value_1;
+    float value_1 = 0;
     if (OVEN->get_coil(PV1, value_1) == 0) ui->lcdnumber_currentval1->display((int16_t)value_1);
 
     // Refreshing the plot 1
@@ -840,7 +840,7 @@ void MainWindow::on_pushbutton_mode2setcontrolpoints_clicked(){
     ui->groupbox_connection->setEnabled(false);
 
     // Reading the value from the input 1
-    float value_1;
+    float value_1 = 0;
     if (OVEN->get_coil(PV1, value_1) == 0) ui->lcdnumber_mode2currentval1->display((int16_t)value_1);
 
     // Refreshing the plot 2 and trend

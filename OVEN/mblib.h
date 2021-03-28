@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <windows.h>
+#include <fstream>
 
 struct modbus_connection{
 	public:
@@ -29,8 +30,10 @@ struct modbus_connection{
 				uint8_t 		stop_bits,
 				uint8_t			parity,
 				uint8_t			byte_size,
-				uint8_t			slave_id) : slave_id(slave_id){
+                uint8_t			slave_id,
+                std::ofstream * file) : slave_id(slave_id){
             this->slave_serial = ::CreateFile(serial_name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+            this->log_file = file;
             DCB parameters;
 			parameters.DCBlength = sizeof(parameters);
 			if (!GetCommState(slave_serial, &parameters)){
@@ -65,6 +68,8 @@ struct modbus_connection{
         ~modbus_connection(void){ CloseHandle(this->slave_serial); }
 
 	private:
+        std::ofstream * log_file;
+
         uint8_t busy;
 		// handles for serial connection
 		HANDLE slave_serial;
