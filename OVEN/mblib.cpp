@@ -20,12 +20,40 @@ uint8_t modbus_connection::set_coil(uint16_t address, uint16_t value){
 	// Writing the package to the net
     *(this->log_file) << "set_coil 1";
     WriteFile(this->slave_serial, &(this->slave_id), 1, &(this->isize), 0);
+    if (this->isize != 1){
+        *(this->log_file) << "WRITING CORRUPTED AT 0" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &command, 1, &(this->isize), 0);
+    if (this->isize != 1){
+        *(this->log_file) << "WRITING CORRUPTED AT 1" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &start_reg, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 2" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &regs_amount, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 3" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &next_bytes, 1, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 4" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &data, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 5" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &CRC, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 6" << std::endl;
+        return 1;
+    }
     *(this->log_file) << "Write fine" << std::endl;
     Sleep(50);
 	// Read the serial port
@@ -60,10 +88,30 @@ uint8_t modbus_connection::get_coil(uint16_t address, float & value){
     // Writing the package to the net
     *(this->log_file) << "get_coil_fl 1";
     WriteFile(this->slave_serial, &(this->slave_id), 1, &(this->isize), 0);
+    if (this->isize != 1){
+        *(this->log_file) << "WRITING CORRUPTED AT 0" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &command, 1, &(this->isize), 0);
+    if (this->isize != 1){
+        *(this->log_file) << "WRITING CORRUPTED AT 1" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &start_reg, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 2" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &regs_amount, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 3" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &CRC, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 4" << std::endl;
+        return 1;
+    }
     *(this->log_file) << "Write fine" << std::endl;
     Sleep(50);
     // Read the serial port
@@ -108,10 +156,30 @@ uint8_t modbus_connection::get_coil(uint16_t address, int16_t & value){
     // Writing the package to the net
     *(this->log_file) << "get_coil_int 1";
     WriteFile(this->slave_serial, &(this->slave_id), 1, &(this->isize), 0);
+    if (this->isize != 1){
+        *(this->log_file) << "WRITING CORRUPTED AT 0" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &command, 1, &(this->isize), 0);
+    if (this->isize != 1){
+        *(this->log_file) << "WRITING CORRUPTED AT 1" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &start_reg, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 2" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &regs_amount, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 3" << std::endl;
+        return 1;
+    }
     WriteFile(this->slave_serial, &CRC, 2, &(this->isize), 0);
+    if (this->isize != 2){
+        *(this->log_file) << "WRITING CORRUPTED AT 4" << std::endl;
+        return 1;
+    }
     *(this->log_file) << "Write fine" << std::endl;
     Sleep(50);
     // Read the serial port
