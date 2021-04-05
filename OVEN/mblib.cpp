@@ -40,7 +40,7 @@ uint8_t modbus_connection::set_coil(uint16_t address, uint16_t value){
         return 1;
     }
     WriteFile(this->slave_serial, &next_bytes, 1, &(this->isize), 0);
-    if (this->isize != 2){
+    if (this->isize != 1){
         *(this->log_file) << "WRITING CORRUPTED AT 4" << std::endl;
         return 1;
     }
