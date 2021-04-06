@@ -108,7 +108,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Setting up the log-file
     QDateTime date;
-    std::cout << date.currentSecsSinceEpoch() << std::endl;
     log_file.open("log_" + std::to_string(date.currentSecsSinceEpoch()) + ".txt", std::ios::out | std::ios::trunc);
     log_file << "***START***" << std::endl;
 
@@ -251,10 +250,6 @@ MainWindow::~MainWindow(){
 
 // Button "CONNECT" click
 void MainWindow::on_button_connect_clicked(){
-    std::ofstream com_file;
-    com_file.open("com");
-    com_file << ui->lineedit_comport->text().toStdString();
-    com_file.close();
 
     log_file << "Button Connect BEGIN" << std::endl;
     // Serial name in "string"
@@ -335,6 +330,11 @@ void MainWindow::on_button_connect_clicked(){
         else if (ui->radiobutton_mode2->isChecked()){
             on_radiobutton_mode2_clicked();
         }
+        // Writing the com number to the file
+        std::ofstream com_file;
+        com_file.open("com");
+        com_file << ui->lineedit_comport->text().toStdString();
+        com_file.close();
     }
     else if (OVEN->check_connection() == 0){
         log_file << "MODBUS DISCONNECTED" << std::endl;

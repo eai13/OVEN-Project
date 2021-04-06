@@ -20,19 +20,19 @@ int main(){
     std::thread * oven = new std::thread([](){
         system("release\\OVEN.exe");
     });
-
     // Watchdog loop
     while(true){
         // Wait
-        Sleep(10000);
-        std::cout << map_buffer[0] << std::endl;
+        Sleep(20000);
+        std::cout << ((map_buffer[0] == 1) ? "STATUS : OK" : "STATUS : CRASH DETECTED") << std::endl;
         // Check the flag
         if (map_buffer[0] != 1){
+            std::cout << "Restarting..." << std::endl;
             system("taskkill /F /IM OVEN.exe");
             oven->join();
             delete oven;
             oven = new std::thread([]{
-                system("release\\OVEN.exe");
+                system("release\\OVEN.exe 1");
             });
         }
         else map_buffer[0] = 0;
