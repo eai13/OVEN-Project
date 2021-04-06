@@ -25,7 +25,15 @@
 #include <QDate>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
+#include <windows.h>
 
+// Watchdog mapfile and timer
+extern uint8_t restart_flag;
+static HANDLE map_file;
+static uint8_t * map_buffer;
+QTimer * watchdog_timer = new QTimer;
+
+// Separating symbol for .csv
 char sym = ';';
 
 // Current theme of the window
@@ -68,15 +76,35 @@ QLineSeries *   series_trend;
 std::list<std::array<int32_t, 2>> heating_profile;
 std::list<std::array<int32_t, 2>> heating_profile_copy;
 
+// Watchdog timer
+void MainWindow::watchdog(void){
+    map_buffer[0] = 1;
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
+    map_file = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "watchdog_mapfile12");
+    while(map_file == NULL) map_file = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "watchdog_mapfile12");
+    map_buffer = (uint8_t *)MapViewOfFile(map_file, FILE_MAP_ALL_ACCESS, 0, 0, 256);
+    watchdog_timer->connect(watchdog_timer, SIGNAL(timeout()), this, SLOT(watchdog()));
+    watchdog_timer->start(500);
+
     // Checking for available COMs
-    QList<QSerialPortInfo> ser_info = QSerialPortInfo::availablePorts();
-    if (ser_info.size() != 0) ui->lineedit_comport->setText(ser_info.begin()->portName());
+    if (restart_flag > 1){
+        std::ifstream com_file;
+        std::string commname;
+        com_file.open("com");
+        std::getline(com_file, commname);
+        ui->lineedit_comport->setText(QString::fromStdString(commname));
+    }
+    else{
+        QList<QSerialPortInfo> ser_info = QSerialPortInfo::availablePorts();
+        if (ser_info.size() != 0) ui->lineedit_comport->setText(ser_info.begin()->portName());
+    }
 
     // Setting up the log-file
     QDateTime date;
@@ -176,6 +204,10 @@ MainWindow::MainWindow(QWidget *parent)
     qcv_trend->setFixedSize(421, 221);
     qcv_trend->setRenderHint(QPainter::Antialiasing);
     qcv_trend->setParent(ui->horizontalframe_trendplot2);
+
+    if (restart_flag > 1){
+        on_button_connect_clicked();
+    }
 }
 
 // Closing the program
@@ -212,11 +244,18 @@ MainWindow::~MainWindow(){
 
     heating_profile.clear();
     log_file << "***END***" << std::endl;
+
+    system("taskkill /F /IM wd.exe");
     delete ui;
 }
 
 // Button "CONNECT" click
 void MainWindow::on_button_connect_clicked(){
+    std::ofstream com_file;
+    com_file.open("com");
+    com_file << ui->lineedit_comport->text().toStdString();
+    com_file.close();
+
     log_file << "Button Connect BEGIN" << std::endl;
     // Serial name in "string"
     std::string serial_name = "";

@@ -1,3 +1,6 @@
 log*
 *.exe
 build*
+*docx
+*doc
+*pdf
