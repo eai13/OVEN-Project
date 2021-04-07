@@ -32,7 +32,7 @@ public:
 private slots:
     void watchdog(void);
 
-    void on_button_connect_clicked();
+    uint8_t on_button_connect_clicked();
 
     void on_button_disconnect_clicked();
 

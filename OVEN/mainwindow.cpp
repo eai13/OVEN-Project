@@ -93,19 +93,6 @@ MainWindow::MainWindow(QWidget *parent)
     watchdog_timer->connect(watchdog_timer, SIGNAL(timeout()), this, SLOT(watchdog()));
     watchdog_timer->start(500);
 
-    // Checking for available COMs
-    if (restart_flag > 1){
-        std::ifstream com_file;
-        std::string commname;
-        com_file.open("com");
-        std::getline(com_file, commname);
-        ui->lineedit_comport->setText(QString::fromStdString(commname));
-    }
-    else{
-        QList<QSerialPortInfo> ser_info = QSerialPortInfo::availablePorts();
-        if (ser_info.size() != 0) ui->lineedit_comport->setText(ser_info.begin()->portName());
-    }
-
     // Setting up the log-file
     QDateTime date;
     log_file.open("log_" + std::to_string(date.currentSecsSinceEpoch()) + ".txt", std::ios::out | std::ios::trunc);
@@ -204,8 +191,27 @@ MainWindow::MainWindow(QWidget *parent)
     qcv_trend->setRenderHint(QPainter::Antialiasing);
     qcv_trend->setParent(ui->horizontalframe_trendplot2);
 
+    // Checking for available COMs
     if (restart_flag > 1){
+        std::ifstream com_file;
+        std::string commname;
+        com_file.open("com");
+        std::getline(com_file, commname);
+        ui->lineedit_comport->setText(QString::fromStdString(commname));
         on_button_connect_clicked();
+    }
+    else{
+        QList<QSerialPortInfo> ser_info = QSerialPortInfo::availablePorts();
+        for (auto iter = ser_info.begin(); iter < ser_info.end(); iter++){
+            ui->lineedit_comport->setText(iter->portName());
+            if (on_button_connect_clicked()){
+                on_button_disconnect_clicked();
+                break;
+            }
+            else{
+                ui->lineedit_comport->setText("");
+            }
+        }
     }
 }
 
@@ -249,9 +255,8 @@ MainWindow::~MainWindow(){
 }
 
 // Button "CONNECT" click
-void MainWindow::on_button_connect_clicked(){
+uint8_t MainWindow::on_button_connect_clicked(){
 
-    log_file << "Button Connect BEGIN" << std::endl;
     // Serial name in "string"
     std::string serial_name = "";
     // Serial name in "wchar_t"
@@ -262,7 +267,7 @@ void MainWindow::on_button_connect_clicked(){
     // Check the text of the serial
     if (ui->lineedit_comport->text().toStdString().length() == 0){
         log_file << "Wrong Serial" << std::endl;
-        return;
+        return 0;
     }
     else{
         // Set "string" serial name
@@ -277,7 +282,7 @@ void MainWindow::on_button_connect_clicked(){
     // Check the text of ID
     if (ui->lineedit_slaveid->text().toStdString().length() == 0){
         log_file << "Wrong ID" << std::endl;
-        return;
+        return 0;
     }
     else{
         slave_id = ui->lineedit_slaveid->text().toUInt();
@@ -294,27 +299,21 @@ void MainWindow::on_button_connect_clicked(){
     if (OVEN->check_connection() == 1){
         // Banning autonomous control
         if (OVEN->set_coil(r_L1, 1) == 1){
-            log_file << "Error COM setting coils" << std::endl;
             OVEN->disconnect();
-            return;
+            return 0;
         }
-        log_file << "OVEN coil r_L1 - 1" << std::endl;
 
         // Turning off the relays
         if (OVEN->set_coil(rout1, 0) == 1){
-            log_file << "Error COM setting coils" << std::endl;
             OVEN->disconnect();
-            return;
+            return 0;
         }
-        log_file << "OVEN coil rout1 - 0" << std::endl;
 
         // Setting low set points
         if (OVEN->set_coil(SP1, 0) == 1){
-            log_file << "Error COM setting coils" << std::endl;
             OVEN->disconnect();
-            return;
+            return 0;
         }
-        log_file << "OVEN coil SP1 - 0" << std::endl;
 
         // Logging successful connection
         log_file << "MODBUS CONNECTED" << std::endl;
@@ -335,6 +334,7 @@ void MainWindow::on_button_connect_clicked(){
         com_file.open("com");
         com_file << ui->lineedit_comport->text().toStdString();
         com_file.close();
+        return 1;
     }
     else if (OVEN->check_connection() == 0){
         log_file << "MODBUS DISCONNECTED" << std::endl;
@@ -347,12 +347,16 @@ void MainWindow::on_button_connect_clicked(){
         // Deleting the OVEN object
         OVEN->~modbus_connection();
         OVEN = NULL;
+        return 0;
     }
-    log_file << "Button Connect END" << std::endl;
+    return 0;
 }
 
 // Button "DISCONNECT" click
 void MainWindow::on_button_disconnect_clicked(){
+    while(1){
+
+    }
     log_file << "Button Disconnect BEGIN" << std::endl;
     // Check if the connection was established before
     if (    (ui->button_connect->isEnabled() == false) &&

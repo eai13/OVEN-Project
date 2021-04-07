@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[32];
-    char stringdata0[936];
+    QByteArrayData data[33];
+    char stringdata0[944];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,38 +35,39 @@ QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
 QT_MOC_LITERAL(1, 11, 8), // "watchdog"
 QT_MOC_LITERAL(2, 20, 0), // ""
 QT_MOC_LITERAL(3, 21, 25), // "on_button_connect_clicked"
-QT_MOC_LITERAL(4, 47, 28), // "on_button_disconnect_clicked"
-QT_MOC_LITERAL(5, 76, 28), // "on_radiobutton_mode1_clicked"
-QT_MOC_LITERAL(6, 105, 35), // "on_pushbutton_mode1setpoint_c..."
-QT_MOC_LITERAL(7, 141, 12), // "update_plot1"
-QT_MOC_LITERAL(8, 154, 12), // "update_plot2"
-QT_MOC_LITERAL(9, 167, 13), // "refresh_plot1"
-QT_MOC_LITERAL(10, 181, 13), // "refresh_plot2"
-QT_MOC_LITERAL(11, 195, 13), // "refresh_trend"
-QT_MOC_LITERAL(12, 209, 33), // "on_pushbutton_themechange_cli..."
-QT_MOC_LITERAL(13, 243, 31), // "on_pushbutton_stopmode1_clicked"
-QT_MOC_LITERAL(14, 275, 35), // "on_checkbox_mode1write_stateC..."
-QT_MOC_LITERAL(15, 311, 4), // "arg1"
-QT_MOC_LITERAL(16, 316, 35), // "on_pushbutton_mode1saveplot_c..."
-QT_MOC_LITERAL(17, 352, 35), // "on_pushbutton_mode2saveplot_c..."
-QT_MOC_LITERAL(18, 388, 35), // "on_checkbox_mode2write_stateC..."
-QT_MOC_LITERAL(19, 424, 28), // "on_radiobutton_mode2_clicked"
-QT_MOC_LITERAL(20, 453, 31), // "on_pushbutton_mode2stop_clicked"
-QT_MOC_LITERAL(21, 485, 43), // "on_pushbutton_mode2setcontrol..."
-QT_MOC_LITERAL(22, 529, 49), // "on_pushbutton_mode2setstartin..."
-QT_MOC_LITERAL(23, 579, 35), // "on_pushbutton_mode2addpoint_c..."
-QT_MOC_LITERAL(24, 615, 38), // "on_pushbutton_mode2removepoin..."
-QT_MOC_LITERAL(25, 654, 32), // "on_pushbutton_mode2clear_clicked"
-QT_MOC_LITERAL(26, 687, 50), // "on_lineedit_mode2startingtemp..."
-QT_MOC_LITERAL(27, 738, 38), // "on_lineedit_mode2picname_retu..."
-QT_MOC_LITERAL(28, 777, 33), // "on_lineedit_slaveid_returnPre..."
-QT_MOC_LITERAL(29, 811, 45), // "on_lineedit_mode2addtemperatu..."
-QT_MOC_LITERAL(30, 857, 39), // "on_lineedit_mode1setpoint_ret..."
-QT_MOC_LITERAL(31, 897, 38) // "on_lineedit_mode1picname_retu..."
+QT_MOC_LITERAL(4, 47, 7), // "uint8_t"
+QT_MOC_LITERAL(5, 55, 28), // "on_button_disconnect_clicked"
+QT_MOC_LITERAL(6, 84, 28), // "on_radiobutton_mode1_clicked"
+QT_MOC_LITERAL(7, 113, 35), // "on_pushbutton_mode1setpoint_c..."
+QT_MOC_LITERAL(8, 149, 12), // "update_plot1"
+QT_MOC_LITERAL(9, 162, 12), // "update_plot2"
+QT_MOC_LITERAL(10, 175, 13), // "refresh_plot1"
+QT_MOC_LITERAL(11, 189, 13), // "refresh_plot2"
+QT_MOC_LITERAL(12, 203, 13), // "refresh_trend"
+QT_MOC_LITERAL(13, 217, 33), // "on_pushbutton_themechange_cli..."
+QT_MOC_LITERAL(14, 251, 31), // "on_pushbutton_stopmode1_clicked"
+QT_MOC_LITERAL(15, 283, 35), // "on_checkbox_mode1write_stateC..."
+QT_MOC_LITERAL(16, 319, 4), // "arg1"
+QT_MOC_LITERAL(17, 324, 35), // "on_pushbutton_mode1saveplot_c..."
+QT_MOC_LITERAL(18, 360, 35), // "on_pushbutton_mode2saveplot_c..."
+QT_MOC_LITERAL(19, 396, 35), // "on_checkbox_mode2write_stateC..."
+QT_MOC_LITERAL(20, 432, 28), // "on_radiobutton_mode2_clicked"
+QT_MOC_LITERAL(21, 461, 31), // "on_pushbutton_mode2stop_clicked"
+QT_MOC_LITERAL(22, 493, 43), // "on_pushbutton_mode2setcontrol..."
+QT_MOC_LITERAL(23, 537, 49), // "on_pushbutton_mode2setstartin..."
+QT_MOC_LITERAL(24, 587, 35), // "on_pushbutton_mode2addpoint_c..."
+QT_MOC_LITERAL(25, 623, 38), // "on_pushbutton_mode2removepoin..."
+QT_MOC_LITERAL(26, 662, 32), // "on_pushbutton_mode2clear_clicked"
+QT_MOC_LITERAL(27, 695, 50), // "on_lineedit_mode2startingtemp..."
+QT_MOC_LITERAL(28, 746, 38), // "on_lineedit_mode2picname_retu..."
+QT_MOC_LITERAL(29, 785, 33), // "on_lineedit_slaveid_returnPre..."
+QT_MOC_LITERAL(30, 819, 45), // "on_lineedit_mode2addtemperatu..."
+QT_MOC_LITERAL(31, 865, 39), // "on_lineedit_mode1setpoint_ret..."
+QT_MOC_LITERAL(32, 905, 38) // "on_lineedit_mode1picname_retu..."
 
     },
     "MainWindow\0watchdog\0\0on_button_connect_clicked\0"
-    "on_button_disconnect_clicked\0"
+    "uint8_t\0on_button_disconnect_clicked\0"
     "on_radiobutton_mode1_clicked\0"
     "on_pushbutton_mode1setpoint_clicked\0"
     "update_plot1\0update_plot2\0refresh_plot1\0"
@@ -109,36 +110,37 @@ static const uint qt_meta_data_MainWindow[] = {
  // slots: name, argc, parameters, tag, flags
        1,    0,  159,    2, 0x08 /* Private */,
        3,    0,  160,    2, 0x08 /* Private */,
-       4,    0,  161,    2, 0x08 /* Private */,
-       5,    0,  162,    2, 0x08 /* Private */,
-       6,    0,  163,    2, 0x08 /* Private */,
-       7,    0,  164,    2, 0x08 /* Private */,
-       8,    0,  165,    2, 0x08 /* Private */,
-       9,    0,  166,    2, 0x08 /* Private */,
-      10,    0,  167,    2, 0x08 /* Private */,
-      11,    0,  168,    2, 0x08 /* Private */,
-      12,    0,  169,    2, 0x08 /* Private */,
-      13,    0,  170,    2, 0x08 /* Private */,
-      14,    1,  171,    2, 0x08 /* Private */,
-      16,    0,  174,    2, 0x08 /* Private */,
-      17,    0,  175,    2, 0x08 /* Private */,
-      18,    1,  176,    2, 0x08 /* Private */,
-      19,    0,  179,    2, 0x08 /* Private */,
-      20,    0,  180,    2, 0x08 /* Private */,
-      21,    0,  181,    2, 0x08 /* Private */,
-      22,    0,  182,    2, 0x08 /* Private */,
-      23,    0,  183,    2, 0x08 /* Private */,
-      24,    0,  184,    2, 0x08 /* Private */,
-      25,    0,  185,    2, 0x08 /* Private */,
-      26,    0,  186,    2, 0x08 /* Private */,
-      27,    0,  187,    2, 0x08 /* Private */,
-      28,    0,  188,    2, 0x08 /* Private */,
-      29,    0,  189,    2, 0x08 /* Private */,
-      30,    0,  190,    2, 0x08 /* Private */,
-      31,    0,  191,    2, 0x08 /* Private */,
+       5,    0,  161,    2, 0x08 /* Private */,
+       6,    0,  162,    2, 0x08 /* Private */,
+       7,    0,  163,    2, 0x08 /* Private */,
+       8,    0,  164,    2, 0x08 /* Private */,
+       9,    0,  165,    2, 0x08 /* Private */,
+      10,    0,  166,    2, 0x08 /* Private */,
+      11,    0,  167,    2, 0x08 /* Private */,
+      12,    0,  168,    2, 0x08 /* Private */,
+      13,    0,  169,    2, 0x08 /* Private */,
+      14,    0,  170,    2, 0x08 /* Private */,
+      15,    1,  171,    2, 0x08 /* Private */,
+      17,    0,  174,    2, 0x08 /* Private */,
+      18,    0,  175,    2, 0x08 /* Private */,
+      19,    1,  176,    2, 0x08 /* Private */,
+      20,    0,  179,    2, 0x08 /* Private */,
+      21,    0,  180,    2, 0x08 /* Private */,
+      22,    0,  181,    2, 0x08 /* Private */,
+      23,    0,  182,    2, 0x08 /* Private */,
+      24,    0,  183,    2, 0x08 /* Private */,
+      25,    0,  184,    2, 0x08 /* Private */,
+      26,    0,  185,    2, 0x08 /* Private */,
+      27,    0,  186,    2, 0x08 /* Private */,
+      28,    0,  187,    2, 0x08 /* Private */,
+      29,    0,  188,    2, 0x08 /* Private */,
+      30,    0,  189,    2, 0x08 /* Private */,
+      31,    0,  190,    2, 0x08 /* Private */,
+      32,    0,  191,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
+    0x80000000 | 4,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -149,11 +151,10 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   16,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   15,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   15,
+    QMetaType::Void, QMetaType::Int,   16,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -178,7 +179,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->watchdog(); break;
-        case 1: _t->on_button_connect_clicked(); break;
+        case 1: { uint8_t _r = _t->on_button_connect_clicked();
+            if (_a[0]) *reinterpret_cast< uint8_t*>(_a[0]) = std::move(_r); }  break;
         case 2: _t->on_button_disconnect_clicked(); break;
         case 3: _t->on_radiobutton_mode1_clicked(); break;
         case 4: _t->on_pushbutton_mode1setpoint_clicked(); break;
