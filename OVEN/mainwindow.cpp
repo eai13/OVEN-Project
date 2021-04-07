@@ -102,8 +102,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineedit_mode1setpoint->setValidator(new QIntValidator(0, 1000, this));
     ui->lineedit_slaveid->setValidator(new QIntValidator(0, 255, this));
     ui->lineedit_mode2addtemperature->setValidator(new QIntValidator(0, 1000, this));
-    ui->lineedit_mode2addtime->setValidator(new QIntValidator(this));
+    ui->lineedit_mode2addtime->setValidator(new QIntValidator(0, 100000, this));
     ui->lineedit_mode2startingtemperature->setValidator(new QIntValidator(0, 1000, this));
+    ui->lineedit_mode2addspeed->setValidator(new QIntValidator(-20, 20, this));
 
     // Set visibility
     ui->groupbox_mode1->setVisible(true);
@@ -120,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Setting up the X axis
     x_axis_plot1 = new QValueAxis;
     x_axis_plot1->setTickCount(11);
-    x_axis_plot1->setRange(0, 50);
+    x_axis_plot1->setRange(0, 10);
     x_axis_plot1->setTitleText("Время, с");
     // Setting up the Y axis
     y_axis_plot1 = new QValueAxis;
@@ -146,7 +147,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Setting up the X axis
     x_axis_plot2 = new QValueAxis;
     x_axis_plot2->setTickCount(11);
-    x_axis_plot2->setRange(0, 50);
+    x_axis_plot2->setRange(0, 10);
     x_axis_plot2->setTitleText("Время, с");
     // Setting up the Y axis
     y_axis_plot2 = new QValueAxis;
@@ -172,7 +173,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Setting up the X axis
     x_axis_trend = new QValueAxis;
     x_axis_trend->setTickCount(6);
-    x_axis_trend->setRange(0, 50);
+    x_axis_trend->setRange(0, 10);
     x_axis_trend->setTitleText("Время, с");
     // Setting up the Y axis
     y_axis_trend = new QValueAxis;
@@ -560,14 +561,14 @@ void MainWindow::update_plot1(){
         get_data_count = 0;
         // Plotting
         float temperature1 = 0;
-        if (series_plot1->count() >= 50) x_axis_plot1->setRange(0, x_axis_plot1->max() + 1);
+        if ((current_time_1 / 60) >= x_axis_plot1->max()) x_axis_plot1->setRange(0, x_axis_plot1->max() + 1);
         if (OVEN->get_coil(PV1, temperature1) == 0){
             log_file << "OVEN coil PV1: " << temperature1 << std::endl;
-            series_plot1->append(current_time_1, temperature1);
+            series_plot1->append((double)((double)current_time_1 / (double)60), temperature1);
             ui->lcdnumber_currentval1->display(temperature1);
-            current_time_1++;
-            log_file << "Current Time: " << current_time_1 << std::endl;
         }
+        current_time_1++;
+        log_file << "Current Time: " << current_time_1 << std::endl;
         log_file << "OVEN Reading ended" << std::endl;
         // Getting actual error value
         error[0] = error[1];
@@ -642,8 +643,8 @@ void MainWindow::update_plot2(){
         }
         log_file << "OVEN Reading ended" << std::endl;
         // Plotting
-        series_plot2->append(current_time_2, value_1);
-        if (series_plot2->count() >= 50) x_axis_plot2->setMax(x_axis_plot2->max() + 1);
+        series_plot2->append((double)((double)current_time_2 / (double)60), value_1);
+        if ((current_time_2 / 60) >= x_axis_plot2->max()) x_axis_plot2->setMax(x_axis_plot2->max() + 1);
 
         // File writing
         if (data_file_2.is_open()) data_file_2 << current_time_2 << sym << value_1 << sym;
@@ -794,7 +795,6 @@ void MainWindow::update_plot2(){
 
 // Clears the plot
 void MainWindow::refresh_plot1(void){
-    log_file << "Refresh Plot 1 BEGIN" << std::endl;
     if (plot1_timer->isActive()){
         plot1_timer->stop();
         plot1_timer->disconnect(plot1_timer, SIGNAL(timeout()), this, SLOT(update_plot1()));
@@ -805,8 +805,6 @@ void MainWindow::refresh_plot1(void){
     y_axis_plot1->setRange(0, 1000);
     time_counter = 0;
     current_time_1 = 0;
-
-    log_file << "Refresh Plot 1 END" << std::endl;
 }
 // Clears the plot
 void MainWindow::refresh_plot2(void){
@@ -1095,26 +1093,19 @@ void MainWindow::on_pushbutton_mode2setstartingtemperature_clicked(){
 // Adding point to the array
 void MainWindow::on_pushbutton_mode2addpoint_clicked(){
     if ((ui->lineedit_mode2addtemperature->text().length() > 0) && (ui->lineedit_mode2addtime->text().length() > 0)){
-        if ((ui->lineedit_mode2addtime->text().toDouble() > 0) && (ui->lineedit_mode2addtemperature->text().toDouble() < heating_profile.back()[1])) return;
-        if ((ui->lineedit_mode2addtime->text().toDouble() < 0) && (ui->lineedit_mode2addtemperature->text().toDouble() > heating_profile.back()[1])) return;
-        int32_t time;
-        if (ui->lineedit_mode2addtime->text() == "0"){
-            time = ui->lineedit_mode2addtemperature->text().toInt() * 60 + heating_profile.back()[0];
-            heating_profile.push_back(std::array<int, 2>({time, heating_profile.back()[1]}));
-            series_trend->append(time, heating_profile.back()[1]);
-        }
-        else{
-            time = heating_profile.back()[0] + (ui->lineedit_mode2addtemperature->text().toDouble() - (double)heating_profile.back()[1]) * 60 / ui->lineedit_mode2addtime->text().toDouble();
-            heating_profile.push_back(std::array<int, 2>({time, ui->lineedit_mode2addtemperature->text().toInt()}));
-            series_trend->append(time, ui->lineedit_mode2addtemperature->text().toInt());
-        }
+        double tim, tmp;
+        tmp = ui->lineedit_mode2addtemperature->text().toDouble();
+        tim = ui->lineedit_mode2addtime->text().toDouble();
+        series_trend->append(std::ceil(tim + (double)heating_profile.back()[0] / 60), tmp);
+        heating_profile.push_back(std::array<int, 2>({(int)(std::ceil(tim * 60 + heating_profile.back()[0])), (int)tmp}));
         ui->lineedit_mode2addtemperature->setText("");
         ui->lineedit_mode2addtime->setText("");
-        if (heating_profile.back()[0] > x_axis_trend->max()) x_axis_trend->setMax(heating_profile.back()[0]);
+        ui->lineedit_mode2addspeed->setText("");
+        if (heating_profile.back()[0] / 60 > x_axis_trend->max()) x_axis_trend->setMax(heating_profile.back()[0] / 60);
 
         if (heating_profile.back()[1] > (y_axis_trend->max() - 50)) y_axis_trend->setMax(heating_profile.back()[1] + 50);
 
-        std::cout << heating_profile.back()[0] << " ; " << heating_profile.back()[1] << std::endl;
+        log_file << heating_profile.back()[0] << " ; " << heating_profile.back()[1] << std::endl;
         // Set available lineedit
         ui->lineedit_mode2addtime->setFocus();
     }
@@ -1176,11 +1167,87 @@ void MainWindow::on_lineedit_slaveid_returnPressed(){
     on_button_connect_clicked();
 }
 void MainWindow::on_lineedit_mode2addtemperature_returnPressed(){
-    on_pushbutton_mode2addpoint_clicked();
+//    on_pushbutton_mode2addpoint_clicked();
 }
 void MainWindow::on_lineedit_mode1setpoint_returnPressed(){
     on_pushbutton_mode1setpoint_clicked();
 }
 void MainWindow::on_lineedit_mode1picname_returnPressed(){
     on_pushbutton_mode1saveplot_clicked();
+}
+
+void MainWindow::on_lineedit_mode2addspeed_editingFinished(){
+    double spd = ui->lineedit_mode2addspeed->text().toDouble();
+    // If holding the temperature
+    if (spd == 0){
+        ui->lineedit_mode2addtemperature->setText(QString::fromStdString(std::to_string(heating_profile.back()[1])));
+    }
+    // If the temperature was already set then correct speed and set time
+    else if (ui->lineedit_mode2addtemperature->text().length() > 0){
+        double tmp = ui->lineedit_mode2addtemperature->text().toDouble();
+        if (tmp - heating_profile.back()[1] < 0){
+            ui->lineedit_mode2addtime->setText(QString::fromStdString(std::to_string(std::abs((tmp - heating_profile.back()[1]) / spd))));
+            ui->lineedit_mode2addspeed->setText(QString::fromStdString(std::to_string(-std::abs(spd))));
+        }
+        else{
+            ui->lineedit_mode2addtime->setText(QString::fromStdString(std::to_string(std::abs((tmp - heating_profile.back()[1]) / spd))));
+            ui->lineedit_mode2addspeed->setText(QString::fromStdString(std::to_string(std::abs(spd))));
+        }
+    }
+    // If time was already set then set temp
+    else if (ui->lineedit_mode2addtime->text().length() > 0){
+        ui->lineedit_mode2addtemperature->setText(QString::fromStdString(std::to_string(ui->lineedit_mode2addtime->text().toDouble() * spd + heating_profile.back()[1])));
+    }
+}
+
+void MainWindow::on_lineedit_mode2addtemperature_editingFinished(){
+    double tmp = ui->lineedit_mode2addtemperature->text().toDouble();
+    // If holding the temperature
+    if (tmp == heating_profile.back()[1]){
+        ui->lineedit_mode2addspeed->setText("0");
+    }
+    // If the speed was already set then correct it and set time
+    else if (ui->lineedit_mode2addspeed->text().length() > 0){
+        double spd = ui->lineedit_mode2addspeed->text().toDouble();
+        if (tmp - heating_profile.back()[1] < 0){
+            ui->lineedit_mode2addtime->setText(QString::fromStdString(std::to_string(std::abs((tmp - heating_profile.back()[1]) / spd))));
+            ui->lineedit_mode2addspeed->setText(QString::fromStdString(std::to_string(-std::abs(spd))));
+        }
+        else{
+            ui->lineedit_mode2addtime->setText(QString::fromStdString(std::to_string(std::abs((tmp - heating_profile.back()[1]) / spd))));
+            ui->lineedit_mode2addspeed->setText(QString::fromStdString(std::to_string(std::abs(spd))));
+        }
+    }
+    // If the time was already set then set speed
+    else if (ui->lineedit_mode2addtime->text().length() > 0){
+        ui->lineedit_mode2addspeed->setText(QString::fromStdString(std::to_string((tmp - heating_profile.back()[1]) / ui->lineedit_mode2addtemperature->text().toDouble())));
+    }
+}
+
+void MainWindow::on_lineedit_mode2addtime_editingFinished(){
+    double tim = ui->lineedit_mode2addtime->text().toDouble();
+    // If the temperature is set
+    if (ui->lineedit_mode2addtemperature->text().length() > 0){
+        double tmp = ui->lineedit_mode2addtemperature->text().toDouble();
+        // If holding the temperature
+        if (tmp == heating_profile.back()[1]){
+            ui->lineedit_mode2addspeed->setText("0");
+        }
+        // Simple case
+        else{
+            ui->lineedit_mode2addspeed->setText(QString::fromStdString(std::to_string((tmp - heating_profile.back()[1]) / tim)));
+        }
+    }
+    // If the speed is set
+    if (ui->lineedit_mode2addspeed->text().length() > 0){
+        double spd = ui->lineedit_mode2addspeed->text().toDouble();
+        // If holding the temperature
+        if (spd == 0){
+            ui->lineedit_mode2addtemperature->setText(QString::fromStdString(std::to_string(heating_profile.back()[1])));
+        }
+        // Simple case
+        else{
+            ui->lineedit_mode2addtemperature->setText(QString::fromStdString(std::to_string(heating_profile.back()[1] + tim * spd)));
+        }
+    }
 }

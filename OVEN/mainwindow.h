@@ -86,6 +86,12 @@ private slots:
 
     void on_lineedit_mode1picname_returnPressed();
 
+    void on_lineedit_mode2addspeed_editingFinished();
+
+    void on_lineedit_mode2addtemperature_editingFinished();
+
+    void on_lineedit_mode2addtime_editingFinished();
+
 private:
     Ui::MainWindow *ui;
 };

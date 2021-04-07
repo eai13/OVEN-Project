@@ -84,7 +84,7 @@ public:
     QPushButton *pushbutton_mode2saveplot;
     QPushButton *pushbutton_mode2setcontrolpoints;
     QPushButton *pushbutton_mode2stop;
-    QLineEdit *lineedit_mode2addtime;
+    QLineEdit *lineedit_mode2addspeed;
     QLineEdit *lineedit_mode2addtemperature;
     QPushButton *pushbutton_mode2clear;
     QPushButton *pushbutton_mode2addpoint;
@@ -95,7 +95,7 @@ public:
     QPushButton *pushbutton_mode2setstartingtemperature;
     QLabel *label_24;
     QLabel *label_16;
-    QLineEdit *lineedit_mode2addtemperature_2;
+    QLineEdit *lineedit_mode2addtime;
     QFrame *horizontalframe_plot2;
     QHBoxLayout *horizontallayout_plot1_2;
     QLabel *label_relay1_2;
@@ -392,10 +392,10 @@ public:
         pushbutton_mode2stop->setObjectName(QString::fromUtf8("pushbutton_mode2stop"));
         pushbutton_mode2stop->setGeometry(QRect(340, 200, 60, 23));
         pushbutton_mode2stop->setFont(font5);
-        lineedit_mode2addtime = new QLineEdit(groupbox_mode2setpoints);
-        lineedit_mode2addtime->setObjectName(QString::fromUtf8("lineedit_mode2addtime"));
-        lineedit_mode2addtime->setGeometry(QRect(20, 160, 80, 20));
-        lineedit_mode2addtime->setFont(font5);
+        lineedit_mode2addspeed = new QLineEdit(groupbox_mode2setpoints);
+        lineedit_mode2addspeed->setObjectName(QString::fromUtf8("lineedit_mode2addspeed"));
+        lineedit_mode2addspeed->setGeometry(QRect(20, 160, 80, 20));
+        lineedit_mode2addspeed->setFont(font5);
         lineedit_mode2addtemperature = new QLineEdit(groupbox_mode2setpoints);
         lineedit_mode2addtemperature->setObjectName(QString::fromUtf8("lineedit_mode2addtemperature"));
         lineedit_mode2addtemperature->setGeometry(QRect(120, 160, 80, 20));
@@ -438,12 +438,12 @@ public:
         label_24->setFont(font2);
         label_16 = new QLabel(groupbox_mode2setpoints);
         label_16->setObjectName(QString::fromUtf8("label_16"));
-        label_16->setGeometry(QRect(230, 130, 61, 20));
+        label_16->setGeometry(QRect(220, 130, 80, 20));
         label_16->setFont(font2);
-        lineedit_mode2addtemperature_2 = new QLineEdit(groupbox_mode2setpoints);
-        lineedit_mode2addtemperature_2->setObjectName(QString::fromUtf8("lineedit_mode2addtemperature_2"));
-        lineedit_mode2addtemperature_2->setGeometry(QRect(220, 160, 80, 20));
-        lineedit_mode2addtemperature_2->setFont(font5);
+        lineedit_mode2addtime = new QLineEdit(groupbox_mode2setpoints);
+        lineedit_mode2addtime->setObjectName(QString::fromUtf8("lineedit_mode2addtime"));
+        lineedit_mode2addtime->setGeometry(QRect(220, 160, 80, 20));
+        lineedit_mode2addtime->setFont(font5);
         label_7->raise();
         label_8->raise();
         checkbox_mode2write->raise();
@@ -465,9 +465,9 @@ public:
         pushbutton_mode2setstartingtemperature->raise();
         label_24->raise();
         lineedit_mode2addtemperature->raise();
-        lineedit_mode2addtime->raise();
+        lineedit_mode2addspeed->raise();
         label_16->raise();
-        lineedit_mode2addtemperature_2->raise();
+        lineedit_mode2addtime->raise();
         horizontalframe_plot2 = new QFrame(groupbox_mode2);
         horizontalframe_plot2->setObjectName(QString::fromUtf8("horizontalframe_plot2"));
         horizontalframe_plot2->setEnabled(false);
@@ -669,7 +669,7 @@ public:
         lineedit_mode2startingtemperature->setText(QString());
         pushbutton_mode2setstartingtemperature->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\264\320\260\321\202\321\214", nullptr));
         label_24->setText(QApplication::translate("MainWindow", "\320\230\321\201\321\205\320\276\320\264\320\275\320\260\321\217 \321\202\320\265\320\274\320\277. (\320\241)", nullptr));
-        label_16->setText(QApplication::translate("MainWindow", "\320\242\320\265\320\274\320\277. (\320\241)", nullptr));
+        label_16->setText(QApplication::translate("MainWindow", "\320\222\321\200\320\265\320\274\321\217 (\320\274\320\270\320\275)", nullptr));
 #ifndef QT_NO_TOOLTIP
         label_relay1_2->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Relay output 1 status</p><p>NaN - NO INFO</p><p>0 - OFF</p><p>1 - ON</p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP

@@ -1162,7 +1162,7 @@
        <string>Ctrl+Shift+S</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineedit_mode2addtime">
+     <widget class="QLineEdit" name="lineedit_mode2addspeed">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -1363,9 +1363,9 @@
      <widget class="QLabel" name="label_16">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>220</x>
         <y>130</y>
-        <width>61</width>
+        <width>80</width>
         <height>20</height>
        </rect>
       </property>
@@ -1377,10 +1377,10 @@
        </font>
       </property>
       <property name="text">
-       <string>Темп. (С)</string>
+       <string>Время (мин)</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineedit_mode2addtemperature_2">
+     <widget class="QLineEdit" name="lineedit_mode2addtime">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -1416,9 +1416,9 @@
      <zorder>pushbutton_mode2setstartingtemperature</zorder>
      <zorder>label_24</zorder>
      <zorder>lineedit_mode2addtemperature</zorder>
-     <zorder>lineedit_mode2addtime</zorder>
+     <zorder>lineedit_mode2addspeed</zorder>
      <zorder>label_16</zorder>
-     <zorder>lineedit_mode2addtemperature_2</zorder>
+     <zorder>lineedit_mode2addtime</zorder>
     </widget>
     <widget class="QFrame" name="horizontalframe_plot2">
      <property name="enabled">

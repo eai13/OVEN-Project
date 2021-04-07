@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[33];
-    char stringdata0[944];
+    QByteArrayData data[36];
+    char stringdata0[1075];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -63,7 +63,10 @@ QT_MOC_LITERAL(28, 746, 38), // "on_lineedit_mode2picname_retu..."
 QT_MOC_LITERAL(29, 785, 33), // "on_lineedit_slaveid_returnPre..."
 QT_MOC_LITERAL(30, 819, 45), // "on_lineedit_mode2addtemperatu..."
 QT_MOC_LITERAL(31, 865, 39), // "on_lineedit_mode1setpoint_ret..."
-QT_MOC_LITERAL(32, 905, 38) // "on_lineedit_mode1picname_retu..."
+QT_MOC_LITERAL(32, 905, 38), // "on_lineedit_mode1picname_retu..."
+QT_MOC_LITERAL(33, 944, 41), // "on_lineedit_mode2addspeed_edi..."
+QT_MOC_LITERAL(34, 986, 47), // "on_lineedit_mode2addtemperatu..."
+QT_MOC_LITERAL(35, 1034, 40) // "on_lineedit_mode2addtime_edit..."
 
     },
     "MainWindow\0watchdog\0\0on_button_connect_clicked\0"
@@ -90,7 +93,10 @@ QT_MOC_LITERAL(32, 905, 38) // "on_lineedit_mode1picname_retu..."
     "on_lineedit_slaveid_returnPressed\0"
     "on_lineedit_mode2addtemperature_returnPressed\0"
     "on_lineedit_mode1setpoint_returnPressed\0"
-    "on_lineedit_mode1picname_returnPressed"
+    "on_lineedit_mode1picname_returnPressed\0"
+    "on_lineedit_mode2addspeed_editingFinished\0"
+    "on_lineedit_mode2addtemperature_editingFinished\0"
+    "on_lineedit_mode2addtime_editingFinished"
 };
 #undef QT_MOC_LITERAL
 
@@ -100,7 +106,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      29,   14, // methods
+      32,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -108,35 +114,38 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  159,    2, 0x08 /* Private */,
-       3,    0,  160,    2, 0x08 /* Private */,
-       5,    0,  161,    2, 0x08 /* Private */,
-       6,    0,  162,    2, 0x08 /* Private */,
-       7,    0,  163,    2, 0x08 /* Private */,
-       8,    0,  164,    2, 0x08 /* Private */,
-       9,    0,  165,    2, 0x08 /* Private */,
-      10,    0,  166,    2, 0x08 /* Private */,
-      11,    0,  167,    2, 0x08 /* Private */,
-      12,    0,  168,    2, 0x08 /* Private */,
-      13,    0,  169,    2, 0x08 /* Private */,
-      14,    0,  170,    2, 0x08 /* Private */,
-      15,    1,  171,    2, 0x08 /* Private */,
-      17,    0,  174,    2, 0x08 /* Private */,
-      18,    0,  175,    2, 0x08 /* Private */,
-      19,    1,  176,    2, 0x08 /* Private */,
-      20,    0,  179,    2, 0x08 /* Private */,
-      21,    0,  180,    2, 0x08 /* Private */,
-      22,    0,  181,    2, 0x08 /* Private */,
-      23,    0,  182,    2, 0x08 /* Private */,
-      24,    0,  183,    2, 0x08 /* Private */,
-      25,    0,  184,    2, 0x08 /* Private */,
-      26,    0,  185,    2, 0x08 /* Private */,
-      27,    0,  186,    2, 0x08 /* Private */,
-      28,    0,  187,    2, 0x08 /* Private */,
-      29,    0,  188,    2, 0x08 /* Private */,
-      30,    0,  189,    2, 0x08 /* Private */,
-      31,    0,  190,    2, 0x08 /* Private */,
-      32,    0,  191,    2, 0x08 /* Private */,
+       1,    0,  174,    2, 0x08 /* Private */,
+       3,    0,  175,    2, 0x08 /* Private */,
+       5,    0,  176,    2, 0x08 /* Private */,
+       6,    0,  177,    2, 0x08 /* Private */,
+       7,    0,  178,    2, 0x08 /* Private */,
+       8,    0,  179,    2, 0x08 /* Private */,
+       9,    0,  180,    2, 0x08 /* Private */,
+      10,    0,  181,    2, 0x08 /* Private */,
+      11,    0,  182,    2, 0x08 /* Private */,
+      12,    0,  183,    2, 0x08 /* Private */,
+      13,    0,  184,    2, 0x08 /* Private */,
+      14,    0,  185,    2, 0x08 /* Private */,
+      15,    1,  186,    2, 0x08 /* Private */,
+      17,    0,  189,    2, 0x08 /* Private */,
+      18,    0,  190,    2, 0x08 /* Private */,
+      19,    1,  191,    2, 0x08 /* Private */,
+      20,    0,  194,    2, 0x08 /* Private */,
+      21,    0,  195,    2, 0x08 /* Private */,
+      22,    0,  196,    2, 0x08 /* Private */,
+      23,    0,  197,    2, 0x08 /* Private */,
+      24,    0,  198,    2, 0x08 /* Private */,
+      25,    0,  199,    2, 0x08 /* Private */,
+      26,    0,  200,    2, 0x08 /* Private */,
+      27,    0,  201,    2, 0x08 /* Private */,
+      28,    0,  202,    2, 0x08 /* Private */,
+      29,    0,  203,    2, 0x08 /* Private */,
+      30,    0,  204,    2, 0x08 /* Private */,
+      31,    0,  205,    2, 0x08 /* Private */,
+      32,    0,  206,    2, 0x08 /* Private */,
+      33,    0,  207,    2, 0x08 /* Private */,
+      34,    0,  208,    2, 0x08 /* Private */,
+      35,    0,  209,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -155,6 +164,9 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   16,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -208,6 +220,9 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 26: _t->on_lineedit_mode2addtemperature_returnPressed(); break;
         case 27: _t->on_lineedit_mode1setpoint_returnPressed(); break;
         case 28: _t->on_lineedit_mode1picname_returnPressed(); break;
+        case 29: _t->on_lineedit_mode2addspeed_editingFinished(); break;
+        case 30: _t->on_lineedit_mode2addtemperature_editingFinished(); break;
+        case 31: _t->on_lineedit_mode2addtime_editingFinished(); break;
         default: ;
         }
     }
@@ -242,13 +257,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 29)
+        if (_id < 32)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 29;
+        _id -= 32;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 29)
+        if (_id < 32)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 29;
+        _id -= 32;
     }
     return _id;
 }
