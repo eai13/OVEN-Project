@@ -122,7 +122,7 @@ MainWindow::MainWindow(QWidget *parent)
     x_axis_plot1 = new QValueAxis;
     x_axis_plot1->setTickCount(11);
     x_axis_plot1->setRange(0, 10);
-    x_axis_plot1->setTitleText("Время, с");
+    x_axis_plot1->setTitleText("Время, мин");
     // Setting up the Y axis
     y_axis_plot1 = new QValueAxis;
     y_axis_plot1->setTickCount(11);
@@ -148,7 +148,7 @@ MainWindow::MainWindow(QWidget *parent)
     x_axis_plot2 = new QValueAxis;
     x_axis_plot2->setTickCount(11);
     x_axis_plot2->setRange(0, 10);
-    x_axis_plot2->setTitleText("Время, с");
+    x_axis_plot2->setTitleText("Время, мин");
     // Setting up the Y axis
     y_axis_plot2 = new QValueAxis;
     y_axis_plot2->setTickCount(11);
@@ -174,7 +174,7 @@ MainWindow::MainWindow(QWidget *parent)
     x_axis_trend = new QValueAxis;
     x_axis_trend->setTickCount(6);
     x_axis_trend->setRange(0, 10);
-    x_axis_trend->setTitleText("Время, с");
+    x_axis_trend->setTitleText("Время, мин");
     // Setting up the Y axis
     y_axis_trend = new QValueAxis;
     y_axis_trend->setTickCount(6);
@@ -445,6 +445,7 @@ void MainWindow::on_radiobutton_mode1_clicked(){
     ui->lineedit_mode2picname->setText("");
     ui->lineedit_mode2addtemperature->setText("");
     ui->lineedit_mode2addtime->setText("");
+    ui->lineedit_mode2addspeed->setText("");
     ui->lineedit_mode2startingtemperature->setText("");
     ui->checkbox_mode2write->setChecked(false);
     ui->lcdnumber_mode2currentval1->display(0);
@@ -482,8 +483,10 @@ void MainWindow::on_radiobutton_mode2_clicked(){
     ui->lineedit_mode2filename->setEnabled(false);
     ui->lineedit_mode2addtemperature->setEnabled(false);
     ui->lineedit_mode2addtime->setEnabled(false);
+    ui->lineedit_mode2addspeed->setEnabled(false);
     ui->lineedit_mode2addtemperature->setText("");
     ui->lineedit_mode2addtime->setText("");
+    ui->lineedit_mode2addspeed->setText("");
     ui->lineedit_mode2startingtemperature->setText("");
     ui->lineedit_mode2startingtemperature->setEnabled(true);
     ui->groupbox_mode2->setEnabled(true);
@@ -644,7 +647,7 @@ void MainWindow::update_plot2(){
         log_file << "OVEN Reading ended" << std::endl;
         // Plotting
         series_plot2->append((double)((double)current_time_2 / (double)60), value_1);
-        if ((current_time_2 / 60) >= x_axis_plot2->max()) x_axis_plot2->setMax(x_axis_plot2->max() + 1);
+        if ((current_time_2 / 60) >= x_axis_plot2->max()) x_axis_plot2->setMax(x_axis_plot2->max() + 10);
 
         // File writing
         if (data_file_2.is_open()) data_file_2 << current_time_2 << sym << value_1 << sym;
@@ -801,7 +804,7 @@ void MainWindow::refresh_plot1(void){
     }
 
     series_plot1->clear();
-    x_axis_plot1->setRange(0, 50);
+    x_axis_plot1->setRange(0, 10);
     y_axis_plot1->setRange(0, 1000);
     time_counter = 0;
     current_time_1 = 0;
@@ -816,7 +819,7 @@ void MainWindow::refresh_plot2(void){
     close_time = 0;
     time_counter = 0;
     series_plot2->clear();
-    x_axis_plot2->setRange(0, 50);
+    x_axis_plot2->setRange(0, 10);
     y_axis_plot2->setRange(0, 1000);
     current_time_2 = 0;
     trending_time = 0;
@@ -824,8 +827,8 @@ void MainWindow::refresh_plot2(void){
 // Clears the plot
 void MainWindow::refresh_trend(void){
     series_trend->clear();
-    x_axis_trend->setRange(0, 50);
-    y_axis_trend->setRange(0, 20);
+    x_axis_trend->setRange(0, 10);
+    y_axis_trend->setRange(0, 1000);
     heating_profile.clear();
     heating_profile_copy.clear();
 }
@@ -878,6 +881,7 @@ void MainWindow::on_pushbutton_mode2setcontrolpoints_clicked(){
     // Setting the availability for GUI elements
     ui->lineedit_mode2addtemperature->setEnabled(false);
     ui->lineedit_mode2addtime->setEnabled(false);
+    ui->lineedit_mode2addspeed->setEnabled(false);
     ui->lineedit_mode2filename->setEnabled(false);
     ui->lineedit_mode2picname->setEnabled(false);
     ui->lineedit_mode2startingtemperature->setEnabled(false);
@@ -1006,6 +1010,7 @@ void MainWindow::on_pushbutton_mode2stop_clicked(){
     if (series_trend->count() > 1){
         ui->lineedit_mode2addtemperature->setEnabled(true);
         ui->lineedit_mode2addtime->setEnabled(true);
+        ui->lineedit_mode2addspeed->setEnabled(true);
         ui->pushbutton_mode2addpoint->setEnabled(true);
         ui->pushbutton_mode2clear->setEnabled(true);
         ui->pushbutton_mode2removepoint->setEnabled(true);
@@ -1076,6 +1081,7 @@ void MainWindow::on_pushbutton_mode2setstartingtemperature_clicked(){
         series_trend->append(0, ui->lineedit_mode2startingtemperature->text().toInt());
         ui->lineedit_mode2addtemperature->setEnabled(true);
         ui->lineedit_mode2addtime->setEnabled(true);
+        ui->lineedit_mode2addspeed->setEnabled(true);
         ui->lineedit_mode2startingtemperature->setEnabled(false);
         ui->pushbutton_mode2addpoint->setEnabled(true);
         ui->pushbutton_mode2removepoint->setEnabled(true);
@@ -1118,6 +1124,8 @@ void MainWindow::on_pushbutton_mode2removepoint_clicked(){
         ui->lineedit_mode2addtemperature->setEnabled(false);
         ui->lineedit_mode2addtime->setText("");
         ui->lineedit_mode2addtime->setEnabled(false);
+        ui->lineedit_mode2addspeed->setEnabled(false);
+        ui->lineedit_mode2addspeed->setText("");
         ui->lineedit_mode2startingtemperature->setText("");
         ui->lineedit_mode2startingtemperature->setEnabled(true);
         ui->pushbutton_mode2addpoint->setEnabled(false);
@@ -1128,8 +1136,8 @@ void MainWindow::on_pushbutton_mode2removepoint_clicked(){
     }
     else{
         // Check if the axis should be corrected
-        if (series_trend->at(series_trend->count() - 2).x() >= 50) x_axis_trend->setMax(series_trend->at(series_trend->count() - 2).x());
-        else x_axis_trend->setMax(50);
+        if (series_trend->at(series_trend->count() - 2).x() >= 10) x_axis_trend->setMax(series_trend->at(series_trend->count() - 2).x());
+        else x_axis_trend->setMax(10);
     }
     // Delete the back element
     series_trend->remove(series_trend->count() - 1);
@@ -1142,6 +1150,8 @@ void MainWindow::on_pushbutton_mode2clear_clicked(){
     ui->lineedit_mode2addtemperature->setEnabled(false);
     ui->lineedit_mode2addtime->setText("");
     ui->lineedit_mode2addtime->setEnabled(false);
+    ui->lineedit_mode2addspeed->setText("");
+    ui->lineedit_mode2addspeed->setEnabled(false);
     ui->lineedit_mode2startingtemperature->setText("");
     ui->lineedit_mode2startingtemperature->setEnabled(true);
     ui->pushbutton_mode2addpoint->setEnabled(false);
